@@ -260,6 +260,7 @@ function Stage:SecendCategoleClick(data) -- 하위 두번째 카테고리 클릭
     -- Client.ShowCenterLabel("클릭됨")
 
 
+    print'깃테스트'
 
 
 
