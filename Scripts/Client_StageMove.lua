@@ -215,7 +215,7 @@ function Stage:ClickPublicReturn(name) -- 표준 이동 함수
     local data = {}
     data.count = 0
 
-    data.TopleftScrollPanel = ScrollPanel(Rect(5, 20, 114, Client.height-135)) {
+    data.TopleftScrollPanel = ScrollPanel(Rect(5, 20, 115, Client.height-135)) {
         horizontal = false,
     }
     data.TopleftScrollPanel.setOpacity(0)
@@ -256,8 +256,8 @@ function Stage:ClickPublicReturn(name) -- 표준 이동 함수
             self.TopLeftCategoleButton[self.TdTopLeftCategoleButtonTrgar].DOMove(Point(0, self.TopLeftCategoleButton[self.TdTopLeftCategoleButtonTrgar].y), 0.3)
 
 
-            self.TopLeftCategoleButton[key].DOColor(Color(59, 59, 59, 255), 0.3)
-            self.TopLeftCategoleButton[key].DOMove(Point(5, self.TopLeftCategoleButton[key].y), 0.3)
+            self.TopLeftCategoleButton[key].DOColor(Color(128, 128, 128, 255), 0.3)
+            self.TopLeftCategoleButton[key].DOMove(Point(6, self.TopLeftCategoleButton[key].y), 0.3)
             self.TdTopLeftCategoleButtonTrgar = key
 
             self:SecendCategoleClick(value)
@@ -269,10 +269,9 @@ function Stage:ClickPublicReturn(name) -- 표준 이동 함수
     self:SecendCategoleClick(name.data[self.TdTopLeftCategoleButtonTrgar]) -- 변수값 추가
 
 
-    self.TopLeftCategoleButton[self.TdTopLeftCategoleButtonTrgar].color = Color(59, 59, 59, 255)
+    self.TopLeftCategoleButton[self.TdTopLeftCategoleButtonTrgar].color = Color(128, 128, 128, 255)
 
-    self.TopLeftCategoleButton[self.TdTopLeftCategoleButtonTrgar].x = 5
-
+    self.TopLeftCategoleButton[self.TdTopLeftCategoleButtonTrgar].x = 6
 
 
 end
@@ -282,7 +281,7 @@ function Stage:SecendCategoleClick(data) -- 하위 두번째 카테고리 클릭
 
     print(data)
     -- Client.ShowCenterLabel("클릭됨")
-print'테스트2222'
+    print'테스트2222'
 
 
 
