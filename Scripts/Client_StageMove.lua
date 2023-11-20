@@ -282,7 +282,7 @@ function Stage:SecendCategoleClick(data) -- 하위 두번째 카테고리 클릭
 
     print(data)
     -- Client.ShowCenterLabel("클릭됨")
-
+print'테스트2222'
 
 
 
