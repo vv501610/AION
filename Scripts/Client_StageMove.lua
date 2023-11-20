@@ -31,9 +31,9 @@ end
 function Stage:DungeonUp()
     Client.FireEvent("Stage:PanelUp")
 
-    self.BlackPanel.AddChild(Panel(Rect(10, 81, Client.width-20, 2)) {color = Color(132, 132, 132, 255)})
+    self.BlackPanel.AddChild(Panel(Rect(10, 88, Client.width-20, 2)) {color = Color(132, 132, 132, 255)})
 
-    self.menwscroll_panel = ScrollPanel(Rect(10, 50, Client.width-20, 33)) {
+    self.menwscroll_panel = ScrollPanel(Rect(10, 50, Client.width-20, 40)) {
         vertical = false,
     }
 
@@ -54,7 +54,7 @@ end
 function Stage:DungeonGetTopicUp(list)
     self.data = json.parse(list)
 
-    self.TopYellowPanel = Panel(Rect(0, 31, 90, 2)) {
+    self.TopYellowPanel = Panel(Rect(0, 38, 90, 2)) {
         color = Color(255, 189, 0)
      }
      self.WHfektnPanel.AddChild(self.TopYellowPanel)
@@ -63,7 +63,8 @@ function Stage:DungeonGetTopicUp(list)
     for key, _ in pairs(self.data) do
         categorycount = categorycount + 1
 
-        local TopCategole = Button('', Rect(90*(categorycount-1), 0, 90, 31)) {
+        local TopCategole = Button('', Rect(110*(categorycount-1), 0, 110, 38)) {
+            textSize = 16,
             autoTranslate = true,
             text = key,
 
@@ -74,12 +75,12 @@ function Stage:DungeonGetTopicUp(list)
         TopCategole.setOpacity(0)
 
         TopCategole.onClick.Add(function()
-            self.TopYellowPanel.rect = Rect(TopCategole.x, 31, 90, 2)
+            self.TopYellowPanel.rect = Rect(TopCategole.x, 38, 110, 2)
             self:TopCaTegoleClick(key)
         end)
     end
     self:TopCaTegoleClick('개인 사냥터')
-    self.WHfektnPanel.rect = Rect(0, 0, 2+253*categorycount, 32)
+    self.WHfektnPanel.rect = Rect(0, 0, 2+110*categorycount, 32)
 end
 
 function Stage:TopCaTegoleClick(name) -- 맨 위 카테고리 버튼 클릭시
@@ -209,16 +210,12 @@ function Stage:ClickPublicReturn(name) -- 표준 이동 함수
     self.TopTempPanel.setOpacity(0)
     self.BlackPanel.AddChild(self.TopTempPanel)
 
-    local CategoleyellowP = Panel(Rect(3, 20, 2, 29)) {
-        color = Color(255, 189, 0)
-     }
-     self.TopTempPanel.AddChild(CategoleyellowP)
 
 
     local data = {}
     data.count = 0
 
-    data.TopleftScrollPanel = ScrollPanel(Rect(5, 20, 95, Client.height-135)) {
+    data.TopleftScrollPanel = ScrollPanel(Rect(5, 20, 114, Client.height-135)) {
         horizontal = false,
     }
     data.TopleftScrollPanel.setOpacity(0)
@@ -231,13 +228,19 @@ function Stage:ClickPublicReturn(name) -- 표준 이동 함수
 	data.TopleftScrollPanel.content = data.TopleftScrollPanelChild
     -- print(Utility.JSONParse(name.data))
 
+
+    local CategoleyellowP = Panel(Rect(0, 0, 2, 37)) {
+        color = Color(255, 189, 0)
+     }
+     data.TopleftScrollPanelChild.AddChild(CategoleyellowP)
     
     for key, value in pairs(name.data) do
         data.count  = data.count + 1
         -- local c = data.count
         -- print(key, value)
 
-        self.TopLeftCategoleButton[key] = Button('', Rect(0, 29*(data.count-1), 90, 29)) {
+        self.TopLeftCategoleButton[key] = Button('', Rect(0, 37*(data.count-1), 109, 37)) {
+            textSize = 15.5,
             autoTranslate = true,
             text = key,
         }
@@ -246,7 +249,7 @@ function Stage:ClickPublicReturn(name) -- 표준 이동 함수
 
         self.TopLeftCategoleButton[key].onClick.Add(function()
 
-            CategoleyellowP.rect = Rect(3, self.TopLeftCategoleButton[key].y+20, 2, 29)
+            CategoleyellowP.rect = Rect(0, self.TopLeftCategoleButton[key].y, 2, 37)
 
             self.TopLeftCategoleButton[self.TdTopLeftCategoleButtonTrgar].setOpacity(0)
             -- self.TopLeftCategoleButton[key].setOpacity(180)
