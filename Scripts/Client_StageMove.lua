@@ -207,13 +207,19 @@ function Stage:ClickPublicReturn(name) -- 표준 이동 함수
     self.TopTempPanel.setOpacity(0)
     self.BlackPanel.AddChild(self.TopTempPanel)
 
+    local CategoleyellowP = Panel(Rect(3, 20, 2, 29)) {
+        color = Color(255, 189, 0)
+     }
+     self.TopTempPanel.AddChild(CategoleyellowP)
+
 
     local data = {}
     data.count = 0
 
-    data.TopleftScrollPanel = ScrollPanel(Rect(5, 40, 90, Client.height-135)) {
+    data.TopleftScrollPanel = ScrollPanel(Rect(5, 20, 90, Client.height-135)) {
         horizontal = false,
     }
+    data.TopleftScrollPanel.setOpacity(0)
     self.TopTempPanel.AddChild(data.TopleftScrollPanel)
 
     data.TopleftScrollPanelChild = Panel(Rect(0, 0, 0, 0))
@@ -226,7 +232,7 @@ function Stage:ClickPublicReturn(name) -- 표준 이동 함수
     
     for key, value in pairs(name.data) do
         data.count  = data.count + 1
-        print(key, value)
+        -- print(key, value)
 
         self.TopLeftCategoleButton[key] = Button('', Rect(0, 29*(data.count-1), 90, 29)) {
             autoTranslate = true,
@@ -236,6 +242,9 @@ function Stage:ClickPublicReturn(name) -- 표준 이동 함수
         data.TopleftScrollPanelChild.AddChild(self.TopLeftCategoleButton[key])
 
         self.TopLeftCategoleButton[key].onClick.Add(function()
+
+            CategoleyellowP.rect = Rect(3, self.TopLeftCategoleButton[key].y+20, 2, 29)
+
             self.TopLeftCategoleButton[self.TdTopLeftCategoleButtonTrgar].setOpacity(0)
             self.TopLeftCategoleButton[key].setOpacity(255)
             self.TdTopLeftCategoleButtonTrgar = key
@@ -247,6 +256,7 @@ function Stage:ClickPublicReturn(name) -- 표준 이동 함수
 
 
     self:SecendCategoleClick(name.data[self.TdTopLeftCategoleButtonTrgar]) -- 변수값 추가/ 
+
 
     self.TopLeftCategoleButton[self.TdTopLeftCategoleButtonTrgar].setOpacity(255)
 
