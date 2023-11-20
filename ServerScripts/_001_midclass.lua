@@ -1,6 +1,6 @@
 ---@diagnostic disable: duplicate-set-field
 
-Class = {
+local Class = {
     _VERSION     = 'middleclass v4.1.1',
     _DESCRIPTION = 'Object Orientation for Lua',
     _URL         = 'https://github.com/kikito/middleclass',
@@ -204,3 +204,4 @@ end
 
 Singleton = Singleton
 
+return Class

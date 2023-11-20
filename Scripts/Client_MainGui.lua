@@ -1,5 +1,6 @@
 ---@diagnostic disable: undefined-global, inject-field, undefined-field
 
+local Class = require("_001_midclass")
 MainGui = Class('MainGui'):include(Singleton)
 
 

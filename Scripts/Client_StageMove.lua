@@ -1,6 +1,8 @@
 ---@diagnostic disable: undefined-global
 local data = require('DataBase/MonsterDataBase')
 
+local Class = require("_001_midclass")
+
 Stage = Class('Stage', MainGui)
 
 
@@ -216,7 +218,7 @@ function Stage:ClickPublicReturn(name) -- 표준 이동 함수
     local data = {}
     data.count = 0
 
-    data.TopleftScrollPanel = ScrollPanel(Rect(5, 20, 90, Client.height-135)) {
+    data.TopleftScrollPanel = ScrollPanel(Rect(5, 20, 95, Client.height-135)) {
         horizontal = false,
     }
     data.TopleftScrollPanel.setOpacity(0)
@@ -232,6 +234,7 @@ function Stage:ClickPublicReturn(name) -- 표준 이동 함수
     
     for key, value in pairs(name.data) do
         data.count  = data.count + 1
+        -- local c = data.count
         -- print(key, value)
 
         self.TopLeftCategoleButton[key] = Button('', Rect(0, 29*(data.count-1), 90, 29)) {
@@ -246,7 +249,12 @@ function Stage:ClickPublicReturn(name) -- 표준 이동 함수
             CategoleyellowP.rect = Rect(3, self.TopLeftCategoleButton[key].y+20, 2, 29)
 
             self.TopLeftCategoleButton[self.TdTopLeftCategoleButtonTrgar].setOpacity(0)
-            self.TopLeftCategoleButton[key].setOpacity(255)
+            -- self.TopLeftCategoleButton[key].setOpacity(180)
+            self.TopLeftCategoleButton[self.TdTopLeftCategoleButtonTrgar].DOMove(Point(0, self.TopLeftCategoleButton[self.TdTopLeftCategoleButtonTrgar].y), 0.3)
+
+
+            self.TopLeftCategoleButton[key].DOColor(Color(59, 59, 59, 255), 0.3)
+            self.TopLeftCategoleButton[key].DOMove(Point(5, self.TopLeftCategoleButton[key].y), 0.3)
             self.TdTopLeftCategoleButtonTrgar = key
 
             self:SecendCategoleClick(value)
@@ -255,10 +263,13 @@ function Stage:ClickPublicReturn(name) -- 표준 이동 함수
     end
 
 
-    self:SecendCategoleClick(name.data[self.TdTopLeftCategoleButtonTrgar]) -- 변수값 추가/ 
+    self:SecendCategoleClick(name.data[self.TdTopLeftCategoleButtonTrgar]) -- 변수값 추가
 
 
-    self.TopLeftCategoleButton[self.TdTopLeftCategoleButtonTrgar].setOpacity(255)
+    self.TopLeftCategoleButton[self.TdTopLeftCategoleButtonTrgar].color = Color(59, 59, 59, 255)
+
+    self.TopLeftCategoleButton[self.TdTopLeftCategoleButtonTrgar].x = 5
+
 
 
 end
