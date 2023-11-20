@@ -260,12 +260,6 @@ function Stage:SecendCategoleClick(data) -- 하위 두번째 카테고리 클릭
     -- Client.ShowCenterLabel("클릭됨")
 
 
-    print'깃테스트' -- 이부분 깃허브에서 수정한 부분임
-
-    print'이건 노트북에서 수정한 부분임'
-    print'2차로 노트으로 가져오는지 확인'
-	
-
 
 
     
