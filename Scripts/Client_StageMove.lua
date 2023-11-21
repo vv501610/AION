@@ -56,6 +56,7 @@ function Stage:DungeonGetTopicUp(list)
 
     self.TopYellowPanel = Panel(Rect(0, 38, 90, 2)) {
         color = Color(255, 189, 0)
+        
      }
      self.WHfektnPanel.AddChild(self.TopYellowPanel)
 
@@ -279,9 +280,8 @@ end
 
 function Stage:SecendCategoleClick(data) -- 하위 두번째 카테고리 클릭시
 
-    print(data)
-    -- Client.ShowCenterLabel("클릭됨")
-    print'테스트2222'
+    print(Utility.JSONSerialize(data))
+
 
 
 

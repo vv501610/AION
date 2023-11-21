@@ -47,6 +47,7 @@ function MainGui:BackGrundPanelUp()
 
     self.BackGrundPanel = Panel(Rect(0, 0, Client.width, Client.height))
 
+
     self.BackGrundPanel.showOnTop = true
     self.BackGrundPanel.visible = false
 
