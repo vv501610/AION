@@ -51,7 +51,34 @@ function MainGui:BackGrundPanelUp()
     self.BackGrundPanel.showOnTop = true
     self.BackGrundPanel.visible = false
 
-    self.BackWhitekPanel = Image("Pictures/EntireScrean/NomalPanel2.png", Rect(0, 0, Client.width, Client.height))
+    self.BackWhitekPanel = Image("Pictures/EntireScrean/NomalPanel2.png", Rect(0, 0, self.BackGrundPanel.width, self.BackGrundPanel.height))
+
+
+
+    Client.onResize.Add(function()
+
+
+        Client.RunLater(function ()
+            local w, h = Client.width, Client.height
+            self.BackGrundPanel.width, self.BackGrundPanel.height = w, h
+            self.BackWhitekPanel.width, self.BackWhitekPanel.height = w, h
+            
+            self.HelpButton.x = self.BackWhitekPanel.width - 75 -- 도움버튼
+            self.CloseButton.x = self.BackWhitekPanel.width - 50
+
+    
+    
+            for key = 1, #self.TopPanelTable.P do
+                self.TopPanelTable.P[key].x = w- 200 -((1-key)*-120)
+                self.TopPanelTable.I[key].x = w- 200 -((1-key)*-120)
+                self.TopPanelTable.T[key].x = w- 200 -((1-key)*-120)
+    
+            end
+            
+        end, 0.1)
+
+    end)
+    
 
     self.BackGrundPanel.AddChild(self.BackWhitekPanel)
 
@@ -97,9 +124,13 @@ function MainGui:TopPanel()
     self.HelpButton = Button('', Rect(self.BackWhitekPanel.width - 75, -20, 0, 0)) -- 도움버튼
     self.BackGrundPanel.AddChild(self.HelpButton)
     self.HelpImg = Image('Pictures/EntireScrean/help2.png', Rect(0, 0, 25, 25))
-
     self.HelpButton.AddChild(self.HelpImg)
 
+    self.HelpButton.onClick.Add(function()
+        HelpNote('도움말', '안녕하세요')
+
+        
+    end)
 
 
 end
@@ -108,11 +139,11 @@ end
 
 function MainGui:Close()
 
-    self.CloseButton = Button('', Rect(self.BackWhitekPanel.width - 40, -30, 40, 40))
+    self.CloseButton = Button('', Rect(self.BackWhitekPanel.width - 50, -37, 40, 40))
     self.CloseButton.SetOpacity(0)
-    self.CloseButtonText = Text('✕', Rect(0, 0, 40, 40)) {
-        textAlign = 0,
-        textSize = 31
+    self.CloseButtonText = Text('×', Rect(0, 0, 50, 50)) {
+        textAlign = 1,
+        textSize = 40
     }
 
     self.CloseButton.AddChild(self.CloseButtonText)
@@ -144,7 +175,7 @@ function MainGui:CloseAnimation() -- 닫기 애니메이션
     end)
 
 
-    self.CloseButton.DOMove(Point(self.BlackPanel.width - 40, -30), 0.3).DONumber(255, 0, 0.3, function(value) --닫기 버튼 이동, 투명
+    self.CloseButton.DOMove(Point(self.BackWhitekPanel.width - 50, -37), 0.3).DONumber(255, 0, 0.3, function(value) --닫기 버튼 이동, 투명
         self.CloseButtonText.SetOpacity(value)
     end)
 
@@ -188,7 +219,7 @@ function MainGui:ShowAnimation() -- 열기 애니메이션
     end)
 
 
-    self.CloseButton.DOMove(Point(self.BlackPanel.width - 40, 2), 0.3).DONumber(0, 255, 0.3, function(value) -- 닫기 버튼 이동, 투명
+    self.CloseButton.DOMove(Point(self.BackWhitekPanel.width - 50, -5), 0.3).DONumber(0, 255, 0.3, function(value) -- 닫기 버튼 이동, 투명
         self.CloseButtonText.SetOpacity(value)
     end)
 
@@ -215,6 +246,20 @@ function MainGui:ShowAnimation() -- 열기 애니메이션
     self.BackWhitekPanel.DOColor(Color(255, 255, 255, 255), 0.4) -- 배경 사진 투명도
 end
 
+
+
+
+-- function MainGui:HelpNote(title, text) -- HelpButtonClick
+--     local HelpNote = {}
+--     HelpNote.BlackPanel = Panel(Rect(0, 0, Client.width, Client.height))
+--     HelpNote.BlackPanel.showOnTop = true
+
+--     HelpNote.
+
+
+--     print(title, text)
+    
+-- end
 
 
 

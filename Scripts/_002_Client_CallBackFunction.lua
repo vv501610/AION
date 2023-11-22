@@ -15,7 +15,6 @@ local BackLoadingpanel, LoadingImg, garfatext  = nil, nil, nil
 
 function LoadingPanelUp() ---로딩창, 삭제는 LoadingPanelDestroy 함수 실행
 
-print'ddd'
    local del = 0
    local i = 1
 
@@ -53,10 +52,29 @@ end
 
 
 
-
 function LoadingPanelDestroy()
    Client.onTick.Remove(LoadingFuntion)
    BackLoadingpanel.Destroy()
    LoadingImg.Destroy()
    garfatext.Destroy()
+end
+
+
+
+function HelpNote(title, text) -- HelpButtonClick
+   local HelpNote = {}
+   HelpNote.BlackPanel = Panel(Rect(0, 0, Client.width, Client.height))
+   HelpNote.BlackPanel.showOnTop = true
+
+   HelpNote.MainPanel = Panel(Rect(Client.width/2 - 241.5, Client.height/2 - 161, 483, 322))
+   HelpNote.MainPanel.SetOpacity(255)
+   HelpNote.BlackPanel.AddChild(HelpNote.MainPanel)
+
+
+
+
+
+
+   print(title, text)
+   
 end

@@ -89,7 +89,8 @@ function Stage:TopCaTegoleClick(name) -- 맨 위 카테고리 버튼 클릭시
         self.TopTempPanel.Destroy()
         self.TopTempPanel = nil
     end
-    self.TopTempPanel = Panel(Rect(5, 85, Client.width-10, Client.height-85))
+    self.TopTempPanel = Panel(Rect(5, 83, 790, 397))
+
     self.TopTempPanel.setOpacity(0)
     self.BlackPanel.AddChild(self.TopTempPanel)
 
@@ -207,8 +208,8 @@ function Stage:ClickPublicReturn(name) -- 표준 이동 함수
         self.TopTempPanel.Destroy()
         self.TopTempPanel = nil
     end
-    self.TopTempPanel = Panel(Rect(5, 83, Client.width-10, Client.height-83))
-    self.TopTempPanel.setOpacity(0)
+    self.TopTempPanel = Panel(Rect(5, 83, 790, 397))
+    -- self.TopTempPanel.setOpacity(0)
     self.BlackPanel.AddChild(self.TopTempPanel)
 
 
@@ -268,12 +269,19 @@ function Stage:ClickPublicReturn(name) -- 표준 이동 함수
 
 
     self:SecendCategoleClick(name.data[self.TdTopLeftCategoleButtonTrgar]) -- 변수값 추가
-
-
     self.TopLeftCategoleButton[self.TdTopLeftCategoleButtonTrgar].color = Color(128, 128, 128, 255)
-
     self.TopLeftCategoleButton[self.TdTopLeftCategoleButtonTrgar].x = 6
 
+    self.NameScrollPanel = ScrollPanel(Rect(130, 20, 220, 300)) {
+        horizontal = false
+    }
+
+
+    self.TopTempPanel.AddChild(self.NameScrollPanel)
+
+    self.NameScrollPanelcontent = Panel(Rect(0, 0, 220, 200))
+    self.NameScrollPanel.AddChild(self.NameScrollPanel)
+    self.NameScrollPanel.content = self.NameScrollPanelcontent
 
 end
 
