@@ -209,7 +209,7 @@ function Stage:ClickPublicReturn(name) -- 표준 이동 함수
         self.TopTempPanel = nil
     end
     self.TopTempPanel = Panel(Rect(5, 83, 790, 397))
-    -- self.TopTempPanel.setOpacity(0)
+    self.TopTempPanel.setOpacity(0)
     self.BlackPanel.AddChild(self.TopTempPanel)
 
 

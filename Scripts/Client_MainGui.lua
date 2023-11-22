@@ -54,10 +54,15 @@ function MainGui:BackGrundPanelUp()
     self.BackWhitekPanel = Image("Pictures/EntireScrean/NomalPanel2.png", Rect(0, 0, self.BackGrundPanel.width, self.BackGrundPanel.height))
 
 
+    self.BackGrundPanel.AddChild(self.BackWhitekPanel)
 
+    self.BlackPanel = Panel(Rect(0, -self.BackWhitekPanel.height+50, self.BackGrundPanel.width, self.BackWhitekPanel.height)) -- 부모패널
+    self.BlackPanel.SetOpacity(0)
+    self.BackWhitekPanel.AddChild(self.BlackPanel)
+
+
+    
     Client.onResize.Add(function()
-
-
         Client.RunLater(function ()
             local w, h = Client.width, Client.height
             self.BackGrundPanel.width, self.BackGrundPanel.height = w, h
@@ -65,26 +70,18 @@ function MainGui:BackGrundPanelUp()
             
             self.HelpButton.x = self.BackWhitekPanel.width - 75 -- 도움버튼
             self.CloseButton.x = self.BackWhitekPanel.width - 50
+            self.BlackPanel.x = self.BackWhitekPanel.width/2 - (self.BlackPanel.width/2)
 
-    
     
             for key = 1, #self.TopPanelTable.P do
                 self.TopPanelTable.P[key].x = w- 200 -((1-key)*-120)
                 self.TopPanelTable.I[key].x = w- 200 -((1-key)*-120)
                 self.TopPanelTable.T[key].x = w- 200 -((1-key)*-120)
-    
             end
-            
         end, 0.1)
-
     end)
     
 
-    self.BackGrundPanel.AddChild(self.BackWhitekPanel)
-
-    self.BlackPanel = Panel(Rect(0, -self.BackWhitekPanel.height+50, self.BackGrundPanel.width, self.BackWhitekPanel.height)) -- 부모패널
-    self.BlackPanel.SetOpacity(0)
-    self.BackWhitekPanel.AddChild(self.BlackPanel)
 
     self.PanelName = Text('', Rect(40, -30, 100, 25)){
         autoTranslate = true,
@@ -184,8 +181,8 @@ function MainGui:CloseAnimation() -- 닫기 애니메이션
     end)
 
 
-    for key, value in pairs(self.TopPanelTable) do
-        for k, v in pairs(value) do
+    for _, value in pairs(self.TopPanelTable) do
+        for _, v in pairs(value) do
             v.DOMove(Point(v.x, -20), 0.3).DONumber(255, 0, 0.3, function(vvs) --위 전투력, 골드패널
                 v.SetOpacity(vvs)
             end)
@@ -200,7 +197,8 @@ function MainGui:CloseAnimation() -- 닫기 애니메이션
 
 
 
-    self.BlackPanel.DOMove(Point(0, -self.BackGrundPanel.width+50), 0.3)
+
+    self.BlackPanel.DOMove(Point(self.BackWhitekPanel.width/2 - (self.BlackPanel.width/2), -self.BackGrundPanel.width+50), 0.3)
 
     self.BackWhitekPanel.DOColor(Color(255, 255, 255, 0), 0.3) --배경 사진 투명도
 
@@ -229,8 +227,8 @@ function MainGui:ShowAnimation() -- 열기 애니메이션
     end)
 
 
-    for key, value in pairs(self.TopPanelTable) do
-        for k, v in pairs(value) do
+    for _, value in pairs(self.TopPanelTable) do
+        for _, v in pairs(value) do
             v.DOMove(Point(v.x, 10), 0.3).DONumber(0, 255, 0.3, function(vvs) --위 전투력, 골드패널
                 v.SetOpacity(vvs)
             end)
@@ -242,7 +240,7 @@ function MainGui:ShowAnimation() -- 열기 애니메이션
         self.HelpImg.SetOpacity(value)
     end)
     
-    self.BlackPanel.DOMove(Point(0, 0), 0.3) -- 위 상단 패널제외 자식패널 이동
+    self.BlackPanel.DOMove(Point(self.BackWhitekPanel.width/2 - (self.BlackPanel.width/2), 0), 0.3) -- 위 상단 패널제외 자식패널 이동
     self.BackWhitekPanel.DOColor(Color(255, 255, 255, 255), 0.4) -- 배경 사진 투명도
 end
 
