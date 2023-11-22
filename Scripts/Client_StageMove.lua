@@ -267,35 +267,77 @@ function Stage:ClickPublicReturn(name) -- 표준 이동 함수
 
     end
 
-
-    self:SecendCategoleClick(name.data[self.TdTopLeftCategoleButtonTrgar]) -- 변수값 추가
     self.TopLeftCategoleButton[self.TdTopLeftCategoleButtonTrgar].color = Color(128, 128, 128, 255)
     self.TopLeftCategoleButton[self.TdTopLeftCategoleButtonTrgar].x = 6
 
     self.NameScrollPanel = ScrollPanel(Rect(130, 20, 220, 300)) {
         horizontal = false
     }
-
-
+    self.NameScrollPanel .setOpacity(0)
     self.TopTempPanel.AddChild(self.NameScrollPanel)
 
-    self.NameScrollPanelcontent = Panel(Rect(0, 0, 220, 200))
-    self.NameScrollPanel.AddChild(self.NameScrollPanel)
-    self.NameScrollPanel.content = self.NameScrollPanelcontent
+
+
+    self:SecendCategoleClick(name.data[self.TdTopLeftCategoleButtonTrgar]) -- 변수값 추가
 
 end
 
 
 function Stage:SecendCategoleClick(data) -- 하위 두번째 카테고리 클릭시
+    self.SecendCategoleInButtonImg = {}
+    self.SecendCategoleInButtonTrgger = 1
+
+
+    if self.NameScrollPanelcontent ~= nil then
+        self.NameScrollPanelcontent.Destroy()
+    end
+
+    self.NameScrollPanelcontent = Panel(Rect(0, 0, 220, 50*#data.MonsterDataID)) 
+    self.NameScrollPanelcontent.setOpacity(0)
+    self.NameScrollPanel.AddChild(self.NameScrollPanelcontent)
+    self.NameScrollPanel.content = self.NameScrollPanelcontent
 
     print(Utility.JSONSerialize(data))
 
+    
+    
+    local GetMonster = Client.GetMonster
+
+    for key, value in ipairs(data.MonsterDataID) do
+        local button = Button('버튼', Rect(0, 50*(key-1), 220, 45))
+        button.setOpacity(0)
+        self.NameScrollPanelcontent.AddChild(button)
+
+        self.SecendCategoleInButtonImg[key] = Image('Pictures/Gui/ChoicePanel(255, 45).png',Rect(0, 0, 220, 45))
+        button.AddChild(self.SecendCategoleInButtonImg[key])
+
+        
+        button.onClick.Add(function()
+            self.SecendCategoleInButtonImg[self.SecendCategoleInButtonTrgger].image = 'Pictures/Gui/ChoicePanel(255, 45).png'
+            self.SecendCategoleInButtonImg[key].image = 'Pictures/Gui/ChoicePanelYellow(255, 45).png'
+            self.SecendCategoleInButtonTrgger = key
+
+            self:MonSterDataDetailed(data, key)
+            
+            
+        end)
+    end
 
 
+    self.SecendCategoleInButtonImg[self.SecendCategoleInButtonTrgger].image = 'Pictures/Gui/ChoicePanelYellow(255, 45).png'
+    self:MonSterDataDetailed(data, self.SecendCategoleInButtonTrgger)
 
     
 end
 
+
+
+function Stage:MonSterDataDetailed(data, number)
+
+    print(data.MonsterDataID[number])
+
+    
+end
 -- function Stage:LevelUpStageReset() --- 레벨업시 레벨부분 초기화
 
 --     for n = 1, #self.MainPanelLoock.a1 do

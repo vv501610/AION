@@ -21,7 +21,7 @@ return {
         
             data = {
                 ['쉬움'] = {
-                    MonsterDataID = {1, 2},
+                    MonsterDataID = {3, 4},
                     MonsterCount = {5, 5},
                     MapData = {m = 4, x = 8,  y = 8, rmx = 32, rmy = 32} -- 맵 아이디, x축 , y축, 몬스터 소환 x축 크기, 몬스터 소환 y축 크기
                 }
@@ -34,7 +34,7 @@ return {
         
             data = {
                 ['쉬움'] = {
-                    MonsterDataID = {1, 2},
+                    MonsterDataID = {5, 6},
                     MonsterCount = {5, 5},
                     MapData = {m = 4, x = 8,  y = 8, rmx = 32, rmy = 32} -- 맵 아이디, x축 , y축, 몬스터 소환 x축 크기, 몬스터 소환 y축 크기
                 }
@@ -47,7 +47,7 @@ return {
         
             data = {
                 ['쉬움'] = {
-                    MonsterDataID = {1, 2},
+                    MonsterDataID = {7, 8},
                     MonsterCount = {5, 5},
 
                     MapData = {m = 4, x = 8,  y = 8, rmx = 32, rmy = 32} -- 맵 아이디, x축 , y축, 몬스터 소환 x축 크기, 몬스터 소환 y축 크기
@@ -74,7 +74,7 @@ return {
             ['방치'] = {
                 type = true, -- type이 true일경우 인스턴트맵 생상하지 말고 기존 오픈월드로 이동
                 
-                MonsterDataID = {1, 2},
+                MonsterDataID = {3, 4},
 
                 MapData = {
                     [1] = {m = 4, x = 8,  y = 8, rmx = 32, rmy = 32}, -- 맵 아이디, x축 , y축
