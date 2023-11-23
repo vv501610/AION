@@ -343,7 +343,7 @@ function Stage:SecendCategoleClick(data) -- 하위 두번째 카테고리 클릭
     self.SecendCategoleInButtonImg[self.SecendCategoleInButtonTrgger].image = 'Pictures/Gui/ChoicePanelYellow(255, 45).png'
     self:MonSterDataDetailed(data, self.SecendCategoleInButtonTrgger)
 
-    self.FinalPanel = Panel(Rect(self.NameScrollPanel.width+140, 20, Client.width*0.54, 300))
+    self.FinalPanel = Panel(Rect(self.NameScrollPanel.width+140, 20, Client.width-self.NameScrollPanel.width-155, 300))
     -- self.FinalPanel.anchor = 4
     -- self.FinalPanel.pivotY = 0.6
     self.FinalPanel.setOpacity(255)
