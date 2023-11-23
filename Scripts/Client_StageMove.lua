@@ -270,7 +270,7 @@ function Stage:ClickPublicReturn(name) -- 표준 이동 함수
     self.TopLeftCategoleButton[self.TdTopLeftCategoleButtonTrgar].color = Color(128, 128, 128, 255)
     self.TopLeftCategoleButton[self.TdTopLeftCategoleButtonTrgar].x = 6
 
-    self.NameScrollPanel = ScrollPanel(Rect(130, 20, 220, 300)) {
+    self.NameScrollPanel = ScrollPanel(Rect(130, 20, self.BlackPanel.width*0.275, 300)) {
         horizontal = false
     }
     self.NameScrollPanel .setOpacity(0)
@@ -292,7 +292,7 @@ function Stage:SecendCategoleClick(data) -- 하위 두번째 카테고리 클릭
         self.NameScrollPanelcontent.Destroy()
     end
 
-    self.NameScrollPanelcontent = Panel(Rect(0, 0, 220, 50*#data.MonsterDataID)) 
+    self.NameScrollPanelcontent = Panel(Rect(0, 0, self.NameScrollPanel.width, 50*#data.MonsterDataID)) 
     self.NameScrollPanelcontent.setOpacity(0)
     self.NameScrollPanel.AddChild(self.NameScrollPanelcontent)
     self.NameScrollPanel.content = self.NameScrollPanelcontent
@@ -304,13 +304,30 @@ function Stage:SecendCategoleClick(data) -- 하위 두번째 카테고리 클릭
     local GetMonster = Client.GetMonster
 
     for key, value in ipairs(data.MonsterDataID) do
-        local button = Button('버튼', Rect(0, 50*(key-1), 220, 45))
+        local button = Button('버튼', Rect(0, 50*(key-1), self.NameScrollPanel.width, 45))
         button.setOpacity(0)
         self.NameScrollPanelcontent.AddChild(button)
 
-        self.SecendCategoleInButtonImg[key] = Image('Pictures/Gui/ChoicePanel(255, 45).png',Rect(0, 0, 220, 45))
+        self.SecendCategoleInButtonImg[key] = Image('Pictures/Gui/ChoicePanel(255, 45).png',Rect(0, 0, self.NameScrollPanel.width, 45))
         button.AddChild(self.SecendCategoleInButtonImg[key])
 
+
+        local characterImg = Image('Pictures/Gui/투명.png', Rect(2.5, 2.5, 40, 40))
+        characterImg.SetTargetSprite(GetMonster(value).imageID, 0)
+        self.SecendCategoleInButtonImg[key].AddChild(characterImg)
+
+        local MonstenameText = Text('', Rect(50, 15, 180, 45)) {
+            textAlign = 0,
+            textSize = 15,
+            autoTranslate = true,
+            text = GetMonster(value).name,
+            borderDistance = Point(1, 1),
+            borderEnabled = true,
+        }
+
+
+
+        self.SecendCategoleInButtonImg[key].AddChild(MonstenameText)
         
         button.onClick.Add(function()
             self.SecendCategoleInButtonImg[self.SecendCategoleInButtonTrgger].image = 'Pictures/Gui/ChoicePanel(255, 45).png'
@@ -319,13 +336,19 @@ function Stage:SecendCategoleClick(data) -- 하위 두번째 카테고리 클릭
 
             self:MonSterDataDetailed(data, key)
             
-            
         end)
     end
 
 
     self.SecendCategoleInButtonImg[self.SecendCategoleInButtonTrgger].image = 'Pictures/Gui/ChoicePanelYellow(255, 45).png'
     self:MonSterDataDetailed(data, self.SecendCategoleInButtonTrgger)
+
+    self.FinalPanel = Panel(Rect(self.NameScrollPanel.width+140, 20, Client.width*0.54, 300))
+    -- self.FinalPanel.anchor = 4
+    -- self.FinalPanel.pivotY = 0.6
+    self.FinalPanel.setOpacity(255)
+
+    self.TopTempPanel.AddChild(self.FinalPanel)
 
     
 end

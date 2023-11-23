@@ -8,7 +8,7 @@ return {
 
             data = {
                 ['쉬움'] = {
-                    MonsterDataID = {1, 2},
+                    MonsterDataID = {1, 0},
                     MonsterCount = {5, 5},
                     MapData = {m = 4, x = 8,  y = 8, rmx = 32, rmy = 32} -- 맵 아이디, x축 , y축, 몬스터 소환 x축 크기, 몬스터 소환 y축 크기
                 }
