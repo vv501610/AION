@@ -10,6 +10,26 @@ function C_commaValue(n) ---숫자 컴마 찍기
 end
 
 
+function formatNumber(number) -- print(formatNumber(100321100)) -- retrue 1억32만1100
+   local units = {"", "만", "억", "조"}
+   local result = ""
+   local unitIndex = 1
+ 
+   while number > 0 do
+     local part = number % 10000
+     if part > 0 then
+       result = part .. units[unitIndex] .. result
+     end
+     number = math.floor(number / 10000)
+     unitIndex = unitIndex + 1
+   end
+ 
+   return result
+ end
+
+ 
+
+
 local BackLoadingpanel, LoadingImg, garfatext  = nil, nil, nil
 
 

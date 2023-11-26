@@ -297,14 +297,14 @@ function Stage:SecendCategoleClick(data) -- 하위 두번째 카테고리 클릭
     self.NameScrollPanel.AddChild(self.NameScrollPanelcontent)
     self.NameScrollPanel.content = self.NameScrollPanelcontent
 
-    print(Utility.JSONSerialize(data))
+    -- print(Utility.JSONSerialize(data))
 
     
     
     local GetMonster = Client.GetMonster
 
     for key, value in ipairs(data.MonsterDataID) do
-        local button = Button('버튼', Rect(0, 50*(key-1), self.NameScrollPanel.width, 45))
+        local button = Button('', Rect(0, 50*(key-1), self.NameScrollPanel.width, 45))
         button.setOpacity(0)
         self.NameScrollPanelcontent.AddChild(button)
 
@@ -342,13 +342,7 @@ function Stage:SecendCategoleClick(data) -- 하위 두번째 카테고리 클릭
 
     self.SecendCategoleInButtonImg[self.SecendCategoleInButtonTrgger].image = 'Pictures/Gui/ChoicePanelYellow(255, 45).png'
     self:MonSterDataDetailed(data, self.SecendCategoleInButtonTrgger)
-
-    self.FinalPanel = Panel(Rect(self.NameScrollPanel.width+140, 20, Client.width-self.NameScrollPanel.width-155, 300))
-    -- self.FinalPanel.anchor = 4
-    -- self.FinalPanel.pivotY = 0.6
-    self.FinalPanel.setOpacity(255)
-
-    self.TopTempPanel.AddChild(self.FinalPanel)
+    
 
     
 end
@@ -357,7 +351,36 @@ end
 
 function Stage:MonSterDataDetailed(data, number)
 
+    if self.FinalPanel ~= nil then
+        self.FinalPanel.Destroy()
+    end
+    self.FinalPanel = Image('Pictures/Gui/메인 패널 세로.png', Rect(self.NameScrollPanel.width+140, 20, 250, 300))
+    self.TopTempPanel.AddChild(self.FinalPanel)
+
+    local characterImg = Image('Pictures/Gui/투명.png', Rect(2.5, 2.5, 70, 70))
+    characterImg.SetTargetSprite(Client.GetMonster(data.MonsterDataID[number]).imageID, 0)
+    self.FinalPanel.AddChild(characterImg)
+
+    local UnitName = Text('', Rect(0, 15, 250, 45)) {
+        textAlign = 1,
+        textSize = 15,
+        autoTranslate = true,
+        text = Client.GetMonster(data.MonsterDataID[number]).name,
+        borderDistance = Point(1, 1),
+        borderEnabled = true,
+    }
+    self.FinalPanel.AddChild(UnitName)
+
     print(data.MonsterDataID[number])
+
+
+
+    -- local characterPath = "Characters/몬스터/Monster_0003.png" -- 캐릭터 스프라이트 파일 경로
+    -- local actionName = "left" -- 가져올 액션 이름
+
+    -- local spriteAction = Client.GetSpriteAction(characterPath, actionName)
+
+    -- print(spriteAction.image[1])
 
     
 end
