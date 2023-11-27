@@ -90,11 +90,15 @@ function HelpNote(title, text) -- HelpButtonClick
    HelpNote.MainPanel.SetOpacity(255)
    HelpNote.BlackPanel.AddChild(HelpNote.MainPanel)
 
-
-
-
-
-
    print(title, text)
    
+end
+
+
+function MonsterCombatPower(id) --- 전투력 공식 나중에 수정 해야함!!
+
+   local monster = Client.GetMonster(id)
+
+   
+   return 10000
 end

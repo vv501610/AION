@@ -348,7 +348,6 @@ function Stage:SecendCategoleClick(data) -- 하위 두번째 카테고리 클릭
 end
 
 
-
 function Stage:MonSterDataDetailed(data, number)
 
     if self.FinalPanel ~= nil then
@@ -357,13 +356,18 @@ function Stage:MonSterDataDetailed(data, number)
     self.FinalPanel = Image('Pictures/Gui/메인 패널 세로.png', Rect(self.NameScrollPanel.width+140, 20, 250, 300))
     self.TopTempPanel.AddChild(self.FinalPanel)
 
-    local characterImg = Image('Pictures/Gui/투명.png', Rect(2.5, 2.5, 70, 70))
-    characterImg.SetTargetSprite(Client.GetMonster(data.MonsterDataID[number]).imageID, 0)
-    self.FinalPanel.AddChild(characterImg)
 
-    local UnitName = Text('', Rect(0, 15, 250, 45)) {
+    local backimgpael = Panel(Rect(90, 10, 70, 70))
+    backimgpael.setOpacity(180)
+    self.FinalPanel.AddChild(backimgpael)
+
+    local characterImg = Image('Pictures/Gui/투명.png', Rect(2.5, 2.5, 65, 65))
+    characterImg.SetTargetSprite(Client.GetMonster(data.MonsterDataID[number]).imageID, 0)
+    backimgpael.AddChild(characterImg)
+
+    local UnitName = Text('', Rect(0, 85, 250, 45)) {
         textAlign = 1,
-        textSize = 15,
+        textSize = 16,
         autoTranslate = true,
         text = Client.GetMonster(data.MonsterDataID[number]).name,
         borderDistance = Point(1, 1),
@@ -371,8 +375,46 @@ function Stage:MonSterDataDetailed(data, number)
     }
     self.FinalPanel.AddChild(UnitName)
 
+    local inpanel = Panel(Rect(1.2, 105, 247, 150))
+
+    inpanel.setOpacity(180)
+    self.FinalPanel.AddChild(inpanel)
+
+    local Porwer = Text('', Rect(5, 5, 245, 20)) {
+        textAlign = 0,
+        autoTranslate = true,
+        text = '전투력:'..C_commaValue(MonsterCombatPower(0))
+    }
+    inpanel.AddChild(Porwer)
+
+    local hp = Text('', Rect(5, 22, 245, 20)) {
+        textAlign = 0,
+        autoTranslate = true,
+        text = '체력:'..C_commaValue(Client.GetMonster(data.MonsterDataID[number]).maxHP)
+    }
+    inpanel.AddChild(hp)
+    
+
+    local atk = Text('', Rect(5, 39, 245, 20)) {
+        textAlign = 0,
+        autoTranslate = true,
+        text = '공격력:'..C_commaValue(Client.GetMonster(data.MonsterDataID[number]).attack)
+    }
+    inpanel.AddChild(atk)
+
+    local def = Text('', Rect(5, 56, 245, 20)) {
+        textAlign = 0,
+        autoTranslate = true,
+        text = '방어력:'..C_commaValue(Client.GetMonster(data.MonsterDataID[number]).defense)
+    }
+    inpanel.AddChild(def)
+
+
+
     print(data.MonsterDataID[number])
 
+
+    
 
 
     -- local characterPath = "Characters/몬스터/Monster_0003.png" -- 캐릭터 스프라이트 파일 경로
@@ -403,3 +445,5 @@ Client.GetTopic("Client:Stage:ServerDataUp").Add(function(list)
 end)
 
 Stage:initialize()
+
+
