@@ -11,7 +11,27 @@ return {
                     MonsterDataID = {1, 0},
                     MonsterCount = {5, 5},
                     MapData = {m = 4, x = 8,  y = 8, rmx = 32, rmy = 32} -- 맵 아이디, x축 , y축, 몬스터 소환 x축 크기, 몬스터 소환 y축 크기
-                }
+                },
+                ['보통'] = {
+                    MonsterDataID = {1, 0},
+                    MonsterCount = {5, 5},
+                    MapData = {m = 4, x = 8,  y = 8, rmx = 32, rmy = 32} -- 맵 아이디, x축 , y축, 몬스터 소환 x축 크기, 몬스터 소환 y축 크기
+                },
+                ['어려움'] = {
+                    MonsterDataID = {1, 0},
+                    MonsterCount = {5, 5},
+                    MapData = {m = 4, x = 8,  y = 8, rmx = 32, rmy = 32} -- 맵 아이디, x축 , y축, 몬스터 소환 x축 크기, 몬스터 소환 y축 크기
+                },
+                ['아주 어려움'] = {
+                    MonsterDataID = {1, 0},
+                    MonsterCount = {5, 5},
+                    MapData = {m = 4, x = 8,  y = 8, rmx = 32, rmy = 32} -- 맵 아이디, x축 , y축, 몬스터 소환 x축 크기, 몬스터 소환 y축 크기
+                },
+                ['지옥'] = {
+                    MonsterDataID = {1, 0},
+                    MonsterCount = {5, 5},
+                    MapData = {m = 4, x = 8,  y = 8, rmx = 32, rmy = 32} -- 맵 아이디, x축 , y축, 몬스터 소환 x축 크기, 몬스터 소환 y축 크기
+                },
             }
         },
         ['아시아 대륙'] = {

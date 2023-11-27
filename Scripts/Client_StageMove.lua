@@ -1,5 +1,5 @@
 ---@diagnostic disable: undefined-global
-local data = require('DataBase/MonsterDataBase')
+local Mdata = require('DataBase/MonsterDataBase')
 
 local Class = require("_001_midclass")
 
@@ -270,7 +270,7 @@ function Stage:ClickPublicReturn(name) -- 표준 이동 함수
     self.TopLeftCategoleButton[self.TdTopLeftCategoleButtonTrgar].color = Color(128, 128, 128, 255)
     self.TopLeftCategoleButton[self.TdTopLeftCategoleButtonTrgar].x = 6
 
-    self.NameScrollPanel = ScrollPanel(Rect(130, 20, self.BlackPanel.width*0.275, 300)) {
+    self.NameScrollPanel = ScrollPanel(Rect(130, 20, self.BlackPanel.width-145, 300)) {
         horizontal = false
     }
     self.NameScrollPanel .setOpacity(0)
@@ -292,7 +292,7 @@ function Stage:SecendCategoleClick(data) -- 하위 두번째 카테고리 클릭
         self.NameScrollPanelcontent.Destroy()
     end
 
-    self.NameScrollPanelcontent = Panel(Rect(0, 0, self.NameScrollPanel.width, 50*#data.MonsterDataID)) 
+    self.NameScrollPanelcontent = Panel(Rect(0, 0, self.NameScrollPanel.width, 105*#data.MonsterDataID)) 
     self.NameScrollPanelcontent.setOpacity(0)
     self.NameScrollPanel.AddChild(self.NameScrollPanelcontent)
     self.NameScrollPanel.content = self.NameScrollPanelcontent
@@ -303,129 +303,111 @@ function Stage:SecendCategoleClick(data) -- 하위 두번째 카테고리 클릭
     
     local GetMonster = Client.GetMonster
 
+    local GetItem = Client.GetItem
+
     for key, value in ipairs(data.MonsterDataID) do
-        local button = Button('', Rect(0, 50*(key-1), self.NameScrollPanel.width, 45))
-        button.setOpacity(0)
-        self.NameScrollPanelcontent.AddChild(button)
+ 
+        self.SecendCategoleInButtonImg[key] = Panel(Rect(0, 105*(key-1), self.NameScrollPanel.width, 100))
+        self.NameScrollPanelcontent.AddChild(self.SecendCategoleInButtonImg[key])
 
-        self.SecendCategoleInButtonImg[key] = Image('Pictures/Gui/ChoicePanel(255, 45).png',Rect(0, 0, self.NameScrollPanel.width, 45))
-        button.AddChild(self.SecendCategoleInButtonImg[key])
+        self.SecendCategoleInButtonImg[key].setOpacity(150)
 
 
-        local characterImg = Image('Pictures/Gui/투명.png', Rect(2.5, 2.5, 40, 40))
+        local characterImg = Image('Pictures/Gui/투명.png', Rect(0, 0, 100, 100))
         characterImg.SetTargetSprite(GetMonster(value).imageID, 0)
         self.SecendCategoleInButtonImg[key].AddChild(characterImg)
 
-        local MonstenameText = Text('', Rect(50, 15, 180, 45)) {
+        local MonstenameText = Text('', Rect(120, 10, 180, 45)) {
             textAlign = 0,
-            textSize = 15,
+            textSize = 18,
             autoTranslate = true,
             text = GetMonster(value).name,
             borderDistance = Point(1, 1),
             borderEnabled = true,
         }
-
-
-
         self.SecendCategoleInButtonImg[key].AddChild(MonstenameText)
-        
-        button.onClick.Add(function()
-            self.SecendCategoleInButtonImg[self.SecendCategoleInButtonTrgger].image = 'Pictures/Gui/ChoicePanel(255, 45).png'
-            self.SecendCategoleInButtonImg[key].image = 'Pictures/Gui/ChoicePanelYellow(255, 45).png'
-            self.SecendCategoleInButtonTrgger = key
 
-            self:MonSterDataDetailed(data, key)
-            
-        end)
+        local PowerText = Text('', Rect(120, 34, 180, 45)) {
+            textAlign = 0,
+            textSize = 14,
+            text = '전투력:'..C_commaValue(MonsterCombatPower(value)),
+
+            color = Color(255, 0, 0, 255)
+        }
+
+        self.SecendCategoleInButtonImg[key].AddChild(PowerText)
+
+
+        local atk = Text('', Rect(120, 50, 245, 20)) {
+            textAlign = 0,
+            textSize = 14,
+            autoTranslate = true,
+            text = '공격력:'..C_commaValue(Client.GetMonster(value).attack),
+            color = Color(128, 128, 128, 255)
+        }
+        self.SecendCategoleInButtonImg[key].AddChild(atk)
+    
+        local def = Text('', Rect(120, 66, 245, 20)) {
+            textAlign = 0,
+            textSize = 14,
+            autoTranslate = true,
+            text = '방어력:'..C_commaValue(Client.GetMonster(value).defense),
+            color = Color(128, 128, 128, 255)
+        }
+        self.SecendCategoleInButtonImg[key].AddChild(def)
+
+
+
+        local ScrollDropPanel = ScrollPanel(Rect(250, 15, 300, 70))
+        ScrollDropPanel.setOpacity(0)
+        ScrollDropPanel.vertical = false
+        self.SecendCategoleInButtonImg[key].AddChild(ScrollDropPanel)
+
+        local TempPanel = Panel(Rect(0, 0, 300, 70))
+        TempPanel.setOpacity(0)
+
+        ScrollDropPanel.AddChild(TempPanel)
+        ScrollDropPanel.content = TempPanel
+
+
+        local grid = GridPanel(Rect(5, 5, 300, 70))
+        grid.vertical = false
+        grid.cellSize = Point(60, 60)
+
+        TempPanel.AddChild(grid)
+
+        if data.type ~= true then
+            for i = 5, 6 do
+
+                local a = Button('', Rect(0, 0, 0, 0)) {
+                    color = Color(0, 0, 0, 180)
+                }
+                grid.AddChild(a)
+    
+                local PanelImage = Image('', Rect(2.5, 2.5, 55, 55))
+                PanelImage.SetImageID(GetItem(i).imageID)
+                a.AddChild(PanelImage)
+                
+            end
+        end
+
+
+        for _, v in pairs(Mdata[value].dropitem.dataid) do
+            local a = Button('', Rect(0, 0, 0, 0))
+            grid.AddChild(a)
+
+            local PanelImage = Image('', Rect(2.5, 2.5, 55, 55))
+            PanelImage.SetImageID(GetItem(v).imageID)
+            a.AddChild(PanelImage)
+
+        end
+
+
     end
 
-
-    self.SecendCategoleInButtonImg[self.SecendCategoleInButtonTrgger].image = 'Pictures/Gui/ChoicePanelYellow(255, 45).png'
-    self:MonSterDataDetailed(data, self.SecendCategoleInButtonTrgger)
-    
-
-    
 end
 
 
-function Stage:MonSterDataDetailed(data, number)
-
-    if self.FinalPanel ~= nil then
-        self.FinalPanel.Destroy()
-    end
-    self.FinalPanel = Image('Pictures/Gui/메인 패널 세로.png', Rect(self.NameScrollPanel.width+140, 20, 250, 300))
-    self.TopTempPanel.AddChild(self.FinalPanel)
-
-
-    local backimgpael = Panel(Rect(90, 10, 70, 70))
-    backimgpael.setOpacity(180)
-    self.FinalPanel.AddChild(backimgpael)
-
-    local characterImg = Image('Pictures/Gui/투명.png', Rect(2.5, 2.5, 65, 65))
-    characterImg.SetTargetSprite(Client.GetMonster(data.MonsterDataID[number]).imageID, 0)
-    backimgpael.AddChild(characterImg)
-
-    local UnitName = Text('', Rect(0, 85, 250, 45)) {
-        textAlign = 1,
-        textSize = 16,
-        autoTranslate = true,
-        text = Client.GetMonster(data.MonsterDataID[number]).name,
-        borderDistance = Point(1, 1),
-        borderEnabled = true,
-    }
-    self.FinalPanel.AddChild(UnitName)
-
-    local inpanel = Panel(Rect(1.2, 105, 247, 150))
-
-    inpanel.setOpacity(180)
-    self.FinalPanel.AddChild(inpanel)
-
-    local Porwer = Text('', Rect(5, 5, 245, 20)) {
-        textAlign = 0,
-        autoTranslate = true,
-        text = '전투력:'..C_commaValue(MonsterCombatPower(0))
-    }
-    inpanel.AddChild(Porwer)
-
-    local hp = Text('', Rect(5, 22, 245, 20)) {
-        textAlign = 0,
-        autoTranslate = true,
-        text = '체력:'..C_commaValue(Client.GetMonster(data.MonsterDataID[number]).maxHP)
-    }
-    inpanel.AddChild(hp)
-    
-
-    local atk = Text('', Rect(5, 39, 245, 20)) {
-        textAlign = 0,
-        autoTranslate = true,
-        text = '공격력:'..C_commaValue(Client.GetMonster(data.MonsterDataID[number]).attack)
-    }
-    inpanel.AddChild(atk)
-
-    local def = Text('', Rect(5, 56, 245, 20)) {
-        textAlign = 0,
-        autoTranslate = true,
-        text = '방어력:'..C_commaValue(Client.GetMonster(data.MonsterDataID[number]).defense)
-    }
-    inpanel.AddChild(def)
-
-
-
-    print(data.MonsterDataID[number])
-
-
-    
-
-
-    -- local characterPath = "Characters/몬스터/Monster_0003.png" -- 캐릭터 스프라이트 파일 경로
-    -- local actionName = "left" -- 가져올 액션 이름
-
-    -- local spriteAction = Client.GetSpriteAction(characterPath, actionName)
-
-    -- print(spriteAction.image[1])
-
-    
-end
 -- function Stage:LevelUpStageReset() --- 레벨업시 레벨부분 초기화
 
 --     for n = 1, #self.MainPanelLoock.a1 do
