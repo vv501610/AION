@@ -8,29 +8,29 @@ return {
 
             data = {
                 ['쉬움'] = {
-                    MonsterDataID = {1, 0},
-                    MonsterCount = {5, 5},
-                    MapData = {m = 4, x = 8,  y = 8, rmx = 32, rmy = 32} -- 맵 아이디, x축 , y축, 몬스터 소환 x축 크기, 몬스터 소환 y축 크기
+                    MonsterDataID = {1, 0, 2, 3, 0, 1, 2},
+                    MonsterCount = {50, 50, 50, 50, 50, 50, 50},
+                    MapData = {m = 4, x = 8,  y = 8, rmx = 0, rmy = 0, mmx = 29, mmy = 29} -- 맵 아이디, x축 , y축, 몬스터 소환 x축 크기, 몬스터 소환 y축 크기
                 },
                 ['보통'] = {
                     MonsterDataID = {1, 0},
                     MonsterCount = {5, 5},
-                    MapData = {m = 4, x = 8,  y = 8, rmx = 32, rmy = 32} -- 맵 아이디, x축 , y축, 몬스터 소환 x축 크기, 몬스터 소환 y축 크기
+                    MapData = {m = 4, x = 8,  y = 8, rmx = 0, rmy = 0, mmx = 29, mmy = 29} -- 맵 아이디, x축 , y축, 몬스터 소환 x축 크기, 몬스터 소환 y축 크기
                 },
                 ['어려움'] = {
                     MonsterDataID = {1, 0},
                     MonsterCount = {5, 5},
-                    MapData = {m = 4, x = 8,  y = 8, rmx = 32, rmy = 32} -- 맵 아이디, x축 , y축, 몬스터 소환 x축 크기, 몬스터 소환 y축 크기
+                    MapData = {m = 4, x = 8,  y = 8, rmx = 0, rmy = 0, mmx = 29, mmy = 29} -- 맵 아이디, x축 , y축, 몬스터 소환 x축 크기, 몬스터 소환 y축 크기
                 },
                 ['아주 어려움'] = {
                     MonsterDataID = {1, 0},
                     MonsterCount = {5, 5},
-                    MapData = {m = 4, x = 8,  y = 8, rmx = 32, rmy = 32} -- 맵 아이디, x축 , y축, 몬스터 소환 x축 크기, 몬스터 소환 y축 크기
+                    MapData = {m = 4, x = 8,  y = 8, rmx = 0, rmy = 0, mmx = 29, mmy = 29} -- 맵 아이디, x축 , y축, 몬스터 소환 x축 크기, 몬스터 소환 y축 크기
                 },
                 ['지옥'] = {
                     MonsterDataID = {1, 0},
                     MonsterCount = {5, 5},
-                    MapData = {m = 4, x = 8,  y = 8, rmx = 32, rmy = 32} -- 맵 아이디, x축 , y축, 몬스터 소환 x축 크기, 몬스터 소환 y축 크기
+                    MapData = {m = 4, x = 8,  y = 8, rmx = 0, rmy = 0, mmx = 29, mmy = 29} -- 맵 아이디, x축 , y축, 몬스터 소환 x축 크기, 몬스터 소환 y축 크기
                 },
             }
         },
@@ -43,7 +43,7 @@ return {
                 ['쉬움'] = {
                     MonsterDataID = {3, 4},
                     MonsterCount = {5, 5},
-                    MapData = {m = 4, x = 8,  y = 8, rmx = 32, rmy = 32} -- 맵 아이디, x축 , y축, 몬스터 소환 x축 크기, 몬스터 소환 y축 크기
+                    MapData = {m = 4, x = 8,  y = 8, rmx = 0, rmy = 0, mmx = 29, mmy = 29} -- 맵 아이디, x축 , y축, 몬스터 소환 x축 크기, 몬스터 소환 y축 크기
                 }
             }
         },
@@ -56,7 +56,7 @@ return {
                 ['쉬움'] = {
                     MonsterDataID = {5, 6},
                     MonsterCount = {5, 5},
-                    MapData = {m = 4, x = 8,  y = 8, rmx = 32, rmy = 32} -- 맵 아이디, x축 , y축, 몬스터 소환 x축 크기, 몬스터 소환 y축 크기
+                    MapData = {m = 4, x = 8,  y = 8, rmx = 0, rmy = 0, mmx = 29, mmy = 29} -- 맵 아이디, x축 , y축, 몬스터 소환 x축 크기, 몬스터 소환 y축 크기
                 }
             }
         },
@@ -70,7 +70,7 @@ return {
                     MonsterDataID = {7, 8},
                     MonsterCount = {5, 5},
 
-                    MapData = {m = 4, x = 8,  y = 8, rmx = 32, rmy = 32} -- 맵 아이디, x축 , y축, 몬스터 소환 x축 크기, 몬스터 소환 y축 크기
+                    MapData = {m = 4, x = 8,  y = 8, rmx = 0, rmy = 0, mmx = 29, mmy = 29} -- 맵 아이디, x축 , y축, 몬스터 소환 x축 크기, 몬스터 소환 y축 크기
                 }
             }
         },
@@ -85,7 +85,7 @@ return {
                 MonsterDataID = {1, 2},
 
                 MapData = {
-                    [1] = {m = 4, x = 8,  y = 8, rmx = 32, rmy = 32}, -- 맵 아이디, x축 , y축, 몬스터 소환 x축 크기, 몬스터 소환 y축 크기
+                    [1] = {m = 2, x = 42,  y = 30, rmx = 32, rmy = 32}, -- 맵 아이디, x축 , y축, 몬스터 소환 x축 크기, 몬스터 소환 y축 크기
                     [2] = {m = 4, x = 8,  y = 8, rmx = 32, rmy = 32},
                 },
 

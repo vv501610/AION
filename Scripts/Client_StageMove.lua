@@ -270,9 +270,11 @@ function Stage:ClickPublicReturn(name) -- 표준 이동 함수
     self.TopLeftCategoleButton[self.TdTopLeftCategoleButtonTrgar].color = Color(128, 128, 128, 255)
     self.TopLeftCategoleButton[self.TdTopLeftCategoleButtonTrgar].x = 6
 
-    self.NameScrollPanel = ScrollPanel(Rect(130, 20, self.BlackPanel.width-145, 300)) {
+    self.NameScrollPanel = ScrollPanel(Rect(130, 20, self.BlackPanel.width-145, self.BlackPanel.height - 120)) {
         horizontal = false
     }
+
+    
     self.NameScrollPanel .setOpacity(0)
     self.TopTempPanel.AddChild(self.NameScrollPanel)
 
@@ -357,50 +359,75 @@ function Stage:SecendCategoleClick(data) -- 하위 두번째 카테고리 클릭
         self.SecendCategoleInButtonImg[key].AddChild(def)
 
 
+        self.SecendCategoleInButtonImg[key].AddChild(Image("Pictures/Gui/ChoicePanel.png", Rect(300, 25, self.BlackPanel.width - 550, 50)))
+        local ScrollDropPanel = ScrollPanel(Rect(300, 25, self.BlackPanel.width - 550, 50))
 
-        local ScrollDropPanel = ScrollPanel(Rect(250, 15, 300, 70))
         ScrollDropPanel.setOpacity(0)
         ScrollDropPanel.vertical = false
         self.SecendCategoleInButtonImg[key].AddChild(ScrollDropPanel)
 
-        local TempPanel = Panel(Rect(0, 0, 300, 70))
+        
+
+        local TempPanel = Panel(Rect(0, 0, 45*(#Mdata[value].dropitem.dataid + (data.type and 0 or 2)), 70))
         TempPanel.setOpacity(0)
 
         ScrollDropPanel.AddChild(TempPanel)
         ScrollDropPanel.content = TempPanel
 
+        local iii = 0
 
-        local grid = GridPanel(Rect(5, 5, 300, 70))
-        grid.vertical = false
-        grid.cellSize = Point(60, 60)
-
-        TempPanel.AddChild(grid)
-
-        if data.type ~= true then
+        if Mdata[value].exp ~= 0 then
             for i = 5, 6 do
+                iii = iii + 1
 
-                local a = Button('', Rect(0, 0, 0, 0)) {
-                    color = Color(0, 0, 0, 180)
+                local a = Button('', Rect(5+45*(iii-1), 5, 40, 40)) {
+                    color = Color(64, 64, 64, 255)
                 }
-                grid.AddChild(a)
-    
-                local PanelImage = Image('', Rect(2.5, 2.5, 55, 55))
+                TempPanel.AddChild(a)
+                a.AddChild(Image("Pictures/Gui/slot_new.png", Rect(0, 0, 40, 40)))
+
+                local PanelImage = Image('', Rect(2.5, 2.5, 35, 35))
                 PanelImage.SetImageID(GetItem(i).imageID)
                 a.AddChild(PanelImage)
                 
             end
         end
 
-
         for _, v in pairs(Mdata[value].dropitem.dataid) do
-            local a = Button('', Rect(0, 0, 0, 0))
-            grid.AddChild(a)
+            iii = iii + 1
 
-            local PanelImage = Image('', Rect(2.5, 2.5, 55, 55))
+            local a = Button('', Rect(5+45*(iii-1), 5, 40, 40)){
+                color = Color(64, 64, 64, 255)
+            }
+            TempPanel.AddChild(a)
+            a.AddChild(Image("Pictures/Gui/slot_new.png", Rect(0, 0, 40, 40)))
+            local PanelImage = Image('', Rect(2.5, 2.5, 35, 35))
             PanelImage.SetImageID(GetItem(v).imageID)
             a.AddChild(PanelImage)
-
         end
+
+        if #TempPanel.children == 0 then
+            local t = Text("", Rect(5, 17, 200, 25)) {
+                textAlign = 0,
+                autoTranslate = true,
+                borderDistance = Point(1, 1),
+                borderEnabled = true,
+                text = "보상 정보를 확인 할 수 없습니다.",
+            }
+            TempPanel.AddChild(t)
+            
+        end
+
+
+        self.SecendCategoleInButtonImg[key].AddChild(Image("Pictures/Gui/밝버튼.png", Rect(ScrollDropPanel.x + ScrollDropPanel.width +10, 35, 80, 30)))
+
+        local FinishB = Button('이동', Rect(ScrollDropPanel.x + ScrollDropPanel.width +10, 35, 80, 30))
+        FinishB.onClick.Add(function()
+            Client.FireEvent("Stage:ServerMoveDataup", json.serialize(data), key)
+            self:CloseAnimation()
+        end)
+        FinishB.setOpacity(0)
+        self.SecendCategoleInButtonImg[key].AddChild(FinishB)
 
 
     end
