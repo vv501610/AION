@@ -217,7 +217,7 @@ function Stage:ClickPublicReturn(name) -- 표준 이동 함수
     local data = {}
     data.count = 0
 
-    data.TopleftScrollPanel = ScrollPanel(Rect(5, 20, 115, Client.height-135)) {
+    data.TopleftScrollPanel = ScrollPanel(Rect(5, 20, 115, Client.height-120)) {
         horizontal = false,
     }
     data.TopleftScrollPanel.setOpacity(0)
@@ -380,10 +380,12 @@ function Stage:SecendCategoleClick(data) -- 하위 두번째 카테고리 클릭
             for i = 5, 6 do
                 iii = iii + 1
 
-                local a = Button('', Rect(5+45*(iii-1), 5, 40, 40)) {
-                    color = Color(64, 64, 64, 255)
-                }
+                local a = Button('', Rect(5+45*(iii-1), 5, 40, 40))
+                a.setOpacity(0)
                 TempPanel.AddChild(a)
+                a.onClick.Add(function()
+                    ItemDocePanelUp(i)
+                end)
                 a.AddChild(Image("Pictures/Gui/slot_new.png", Rect(0, 0, 40, 40)))
 
                 local PanelImage = Image('', Rect(2.5, 2.5, 35, 35))
@@ -396,10 +398,12 @@ function Stage:SecendCategoleClick(data) -- 하위 두번째 카테고리 클릭
         for _, v in pairs(Mdata[value].dropitem.dataid) do
             iii = iii + 1
 
-            local a = Button('', Rect(5+45*(iii-1), 5, 40, 40)){
-                color = Color(64, 64, 64, 255)
-            }
+            local a = Button('', Rect(5+45*(iii-1), 5, 40, 40))
+            a.setOpacity(0)
             TempPanel.AddChild(a)
+            a.onClick.Add(function()
+                ItemDocePanelUp(v)
+            end)
             a.AddChild(Image("Pictures/Gui/slot_new.png", Rect(0, 0, 40, 40)))
             local PanelImage = Image('', Rect(2.5, 2.5, 35, 35))
             PanelImage.SetImageID(GetItem(v).imageID)
@@ -415,7 +419,6 @@ function Stage:SecendCategoleClick(data) -- 하위 두번째 카테고리 클릭
                 text = "보상 정보를 확인 할 수 없습니다.",
             }
             TempPanel.AddChild(t)
-            
         end
 
 
@@ -428,10 +431,7 @@ function Stage:SecendCategoleClick(data) -- 하위 두번째 카테고리 클릭
         end)
         FinishB.setOpacity(0)
         self.SecendCategoleInButtonImg[key].AddChild(FinishB)
-
-
     end
-
 end
 
 

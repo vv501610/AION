@@ -81,16 +81,27 @@ end
 
 
 
-function HelpNote(title, text) -- HelpButtonClick
+function HelpNote(title, text) -- HelpButtonClick  --도움말 버튼
    local HelpNote = {}
    HelpNote.BlackPanel = Panel(Rect(0, 0, Client.width, Client.height))
+   HelpNote.BlackPanel.SetOpacity(200)
    HelpNote.BlackPanel.showOnTop = true
 
    HelpNote.MainPanel = Panel(Rect(Client.width/2 - 241.5, Client.height/2 - 161, 483, 322))
-   HelpNote.MainPanel.SetOpacity(255)
+   HelpNote.MainPanel.SetOpacity(0)
    HelpNote.BlackPanel.AddChild(HelpNote.MainPanel)
+   HelpNote.MainPanel.AddChild(Image("Pictures/Gui/메인 패널.png", Rect(0, 0, 483, 322)))
 
-   print(title, text)
+
+
+   HelpNote.qimg = Image("Pictures/Gui/밝버튼.png", Rect(HelpNote.MainPanel.width/2-50, 282, 100, 30))
+   HelpNote.MainPanel.AddChild(HelpNote.qimg)
+
+   HelpNote.questblindConfirmtext = Button('확인', Rect(HelpNote.MainPanel.width/2-50, 282, 100, 30))
+   HelpNote.MainPanel.AddChild(HelpNote.questblindConfirmtext)
+   HelpNote.questblindConfirmtext.SetOpacity(0)
+   HelpNote.questblindConfirmtext.onClick.Add(function()HelpNote.BlackPanel.Destroy() end)
+
    
 end
 
@@ -101,4 +112,47 @@ function MonsterCombatPower(id) --- 전투력 공식 나중에 수정 해야함!
 
    
    return 10000
+end
+
+
+function ItemDocePanelUp(dataID, count)
+   local object = {}
+   object.questblindbutton = Panel(Rect(0, 0, Client.width, Client.height))
+   object.questskinny = Panel(Rect(Client.width/2-120, Client.height/2-135, 240, 275))
+
+   object.questskinny.AddChild(Image("Pictures/Gui/메인 패널.png", Rect(0, 0, 240, 275)))
+
+   object.questskinny2 = Panel(Rect(1, 1, 238, 38))
+   object.questblindbuttonimg = Image("", Rect(2.5, 2.5, 35, 35))
+   object.questblindbuttonimg.SetImageID(Client.GetItem(dataID).imageID)
+
+   object.questblindnametext = Text('', Rect(45, 0, 240, 30))
+
+   if count ~= nil then
+       object.questblindnametext.text = Client.GetItem(dataID).name..'x'..count
+   end
+       object.questblindnametext.text = Client.GetItem(dataID).name
+
+   object.questblinddesctext=Text(Client.GetItem(dataID).desc,Rect(5,45,230,230))
+   object.qimg = Image("Pictures/Gui/밝버튼.png", Rect(object.questskinny.width/2-50,230,100,30))
+   object.questskinny2.AddChild(object.qimg)
+
+   object.questblindConfirmtext = Button('확인', Rect(object.questskinny.width/2-50,230,100,30))
+   object.questblindConfirmtext.SetOpacity(0)
+   object.questblindConfirmtext.onClick.Add(function()object.questblindbutton.Destroy()object.questblindbutton=nil end)
+
+   object.questblindnametext.textSize = 15.5
+   object.questblinddesctext.textAlign = 0
+   object.questskinny2.SetOpacity(100)
+   object.questskinny.SetOpacity(0)
+   object.questblindbutton.SetOpacity(200)
+
+   object.questskinny2.AddChild(object.questblinddesctext)
+   object.questskinny2.AddChild(object.questblindnametext)
+   object.questskinny2.AddChild(object.questblindConfirmtext)
+   object.questskinny.AddChild(object.questskinny2)
+   object.questskinny.AddChild(object.questblindbuttonimg)
+   object.questblindbutton.AddChild(object.questskinny)
+   object.questblindbutton.showOnTop=true
+
 end
