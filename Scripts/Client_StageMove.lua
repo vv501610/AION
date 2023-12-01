@@ -15,6 +15,23 @@ Stage.PanelName = "이동"
 
 Stage.TopYellowPanelTrgre = '개인 사냥터' -- 매개인수 자료타입이 키값
 
+
+Stage.HelpTitleText = '도움말'
+Stage.HelpTextext = '개인 사냥터및 공용 공간으로 이동할 수 있습니다.'
+
+
+Stage.TopPanelData = {
+    Image = {"Pictures/Gui/BattlePower.png"},
+    value = {
+        [1] = function ()
+                return C_commaValue(BattlePower)
+            
+        end,
+
+    }
+}
+
+
 Stage.StageGroundData = {MainPanelLoock = {a1 = {}}}
 
 Stage.MainPanelLoock = {a1 = {}, a2 = {}}
@@ -274,11 +291,8 @@ function Stage:ClickPublicReturn(name) -- 표준 이동 함수
         horizontal = false
     }
 
-    
     self.NameScrollPanel .setOpacity(0)
     self.TopTempPanel.AddChild(self.NameScrollPanel)
-
-
 
     self:SecendCategoleClick(name.data[self.TdTopLeftCategoleButtonTrgar]) -- 변수값 추가
 
@@ -338,7 +352,6 @@ function Stage:SecendCategoleClick(data) -- 하위 두번째 카테고리 클릭
         }
 
         self.SecendCategoleInButtonImg[key].AddChild(PowerText)
-
 
         local atk = Text('', Rect(120, 50, 245, 20)) {
             textAlign = 0,

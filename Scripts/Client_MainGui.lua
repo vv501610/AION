@@ -12,13 +12,16 @@ MainGui.PanelName = "채널 이동"
 
 
 MainGui.TopPanelData = {
-    Image = {"Icons/Item_0089.png", "Icons/Item_0090.png", "Icons/Item_0091.png"},
-    value = {'2/3', 1, 2}
-
+    Image = {},
+    value = {}
 }
 -- MainGui.Ysize = {}
 
 MainGui.TopPanelTable = {P = {}, I = {}, T = {}}
+
+MainGui.HelpTitleText = '도움말'
+
+MainGui.HelpTextext = '도움말'
 
 
 
@@ -104,15 +107,21 @@ function MainGui:TopPanel()
         self.TopPanelTable.P[key] = Image('Pictures/EntireScrean/골드패널2.png',Rect(rr, -20, 110, 20))
         self.BackWhitekPanel.AddChild(self.TopPanelTable.P[key])
 
-        self.TopPanelTable.I[key] = Image(self.TopPanelData.Image[key], Rect(rr, -20, 20, 20))
+        self.TopPanelTable.I[key] = Image(self.TopPanelData.Image[key], Rect(rr, -50, 20, 20))
         self.BackWhitekPanel.AddChild(self.TopPanelTable.I[key])
 
-        self.TopPanelTable.T[key] = Text(self.TopPanelData.value[key], Rect(rr, -20, 110, 20)) {
+        self.TopPanelTable.T[key] = Text(self.TopPanelData.value[key](), Rect(rr+5, -20, 110, 20)) {
             textAlign = 1,
             pivotY = -0.1,
             borderDistance = Point(1, 1),
             borderEnabled = true,
         }
+        -- self.TopPanelTable.T[key] = Text('1', Rect(rr+5, -20, 110, 20)) {
+        --     textAlign = 1,
+        --     pivotY = -0.1,
+        --     borderDistance = Point(1, 1),
+        --     borderEnabled = true,
+        -- }
         self.BackWhitekPanel.AddChild(self.TopPanelTable.T[key])
     end
     
@@ -124,12 +133,9 @@ function MainGui:TopPanel()
     self.HelpButton.AddChild(self.HelpImg)
 
     self.HelpButton.onClick.Add(function()
-        HelpNote('도움말', '안녕하세요')
-
+        HelpNote(self.HelpTitleText, self.HelpTextext)
         
     end)
-
-
 end
 
 
@@ -210,6 +216,8 @@ end
 
 
 function MainGui:ShowAnimation() -- 열기 애니메이션
+
+    self:UpdateText()
     self.BackGrundPanel.visible = true
 
     self.PanelName.DOMove(Point(40, 10), 0.3).DONumber(0, 255, 0.3, function(value) --GUi이름 이름, 투명
@@ -245,6 +253,13 @@ function MainGui:ShowAnimation() -- 열기 애니메이션
 end
 
 
+
+function MainGui:UpdateText()
+    -- print(Client.DoString(self.TopPanelData.value[1]))
+    for i = 1, #self.TopPanelData.value do
+        self.TopPanelTable.T[i].text = self.TopPanelData.value[i]()
+    end
+end
 
 
 -- function MainGui:HelpNote(title, text) -- HelpButtonClick

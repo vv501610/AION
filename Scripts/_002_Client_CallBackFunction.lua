@@ -1,6 +1,9 @@
 ---@diagnostic disable: need-check-nil, undefined-field
 
 
+BattlePower = 100233 -- 전투력변수
+
+
 function C_commaValue(n) ---숫자 컴마 찍기
 
    local left,num,right = string.match(n,'^([^%d]*%d)(%d*)(.-)$')
@@ -93,14 +96,40 @@ function HelpNote(title, text) -- HelpButtonClick  --도움말 버튼
    HelpNote.MainPanel.AddChild(Image("Pictures/Gui/메인 패널.png", Rect(0, 0, 483, 322)))
 
 
-
    HelpNote.qimg = Image("Pictures/Gui/밝버튼.png", Rect(HelpNote.MainPanel.width/2-50, 282, 100, 30))
    HelpNote.MainPanel.AddChild(HelpNote.qimg)
+
+   HelpNote.TitleText = Text("", Rect(0, 10, 483, 30)) {
+      textAlign = 1,
+      textSize = 22,
+      autoTranslate = true,
+      text = title,
+      borderDistance = Point(1, 1),
+      borderEnabled = true,
+      color = Color(255, 189, 0)
+   }
+   HelpNote.MainPanel.AddChild(HelpNote.TitleText)
+
+
+
+   HelpNote.Ttext = Text("", Rect(10, 60, 483, 300)) {
+      textAlign = 0,
+      textSize = 15,
+      autoTranslate = true,
+      text = text,
+      borderDistance = Point(1, 1),
+      borderEnabled = true,
+   }
+   HelpNote.MainPanel.AddChild(HelpNote.Ttext)
+
 
    HelpNote.questblindConfirmtext = Button('확인', Rect(HelpNote.MainPanel.width/2-50, 282, 100, 30))
    HelpNote.MainPanel.AddChild(HelpNote.questblindConfirmtext)
    HelpNote.questblindConfirmtext.SetOpacity(0)
-   HelpNote.questblindConfirmtext.onClick.Add(function()HelpNote.BlackPanel.Destroy() end)
+   HelpNote.questblindConfirmtext.onClick.Add(function()
+      HelpNote.BlackPanel.Destroy()
+   end)
+
 
    
 end
@@ -154,5 +183,5 @@ function ItemDocePanelUp(dataID, count)
    object.questskinny.AddChild(object.questblindbuttonimg)
    object.questblindbutton.AddChild(object.questskinny)
    object.questblindbutton.showOnTop=true
-
 end
+
