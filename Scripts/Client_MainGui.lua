@@ -23,6 +23,8 @@ MainGui.HelpTitleText = '도움말'
 
 MainGui.HelpTextext = '도움말'
 
+--깃 재설차 태스트
+
 
 
 -- function MainGui:GetAllChildren(parent) -- 자식들 다 가져오는 함수
@@ -107,7 +109,7 @@ function MainGui:TopPanel()
         self.TopPanelTable.P[key] = Image('Pictures/EntireScrean/골드패널2.png',Rect(rr, -20, 110, 20))
         self.BackWhitekPanel.AddChild(self.TopPanelTable.P[key])
 
-        self.TopPanelTable.I[key] = Image(self.TopPanelData.Image[key], Rect(rr, -50, 20, 20))
+        self.TopPanelTable.I[key] = Image(self.TopPanelData.Image[key], Rect(rr, -20, 20, 20))
         self.BackWhitekPanel.AddChild(self.TopPanelTable.I[key])
 
         self.TopPanelTable.T[key] = Text(self.TopPanelData.value[key](), Rect(rr+5, -20, 110, 20)) {

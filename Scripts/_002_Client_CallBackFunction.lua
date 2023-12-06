@@ -13,7 +13,7 @@ function C_commaValue(n) ---숫자 컴마 찍기
 end
 
 
-function formatNumber(number) -- print(formatNumber(100321100)) -- retrue 1억32만1100
+function FormatNumber(number) -- print(formatNumber(100321100)) -- retrue 1억32만1100
    local units = {"", "만", "억", "조"}
    local result = ""
    local unitIndex = 1
