@@ -21,7 +21,7 @@ function FormatNumber(number) -- print(formatNumber(100321100)) -- retrue 1억32
    while number > 0 do
      local part = number % 10000
      if part > 0 then
-       result = part .. units[unitIndex] .. result
+       result = part .. units[unitIndex] .. ' '..result
      end
      number = math.floor(number / 10000)
      unitIndex = unitIndex + 1
