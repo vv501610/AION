@@ -41,7 +41,7 @@ MainMenu.menu_icon = {
     "Pictures/mainmenu/icon_notice.png",
     "Pictures/mainmenu/icon_cube.png",
     "Pictures/mainmenu/icon_menu.png",
-    "Pictures/mainmenu/icon_mail.png",
+    "Pictures/mainmenu/homeimg.png",
     "Pictures/mainmenu/moveicon.png",
     "Pictures/mainmenu/Icon_player.png",
     "Pictures/mainmenu/icon_message.png",
@@ -61,7 +61,7 @@ MainMenu.menu_text = {
     "공지",
     "큐브샵",
     "",
-    "프로필",
+    "마을",
     "이동",
     "플레이어",
     "메세지",
@@ -79,7 +79,7 @@ MainMenu.menu_text = {
 MainMenu.BottomOnClick = {
     'ScreenUI.ShowPopup("Bag") MainMenu:hide()', 'ScreenUI.ShowPopup("EventPage") MainMenu:hide()', 'ScreenUI.ShowPopup("CubeShop") MainMenu:hide()', --- 가방, 공지, 큐브
 
-    'MainMenu:hide()', 'ScreenUI.ShowPopup("PlayerInfo") MainMenu:hide()', 'Stage:ShowAnimation()', --- 닷기, 프로필, 이동
+    'MainMenu:hide()', 'MoveHome()', 'Stage:ShowAnimation()', --- 닷기, 마을 이동, 이동
 
     'ScreenUI.ShowPopup("Players") MainMenu:hide()', 'ScreenUI.ShowPopup("Messages") MainMenu:hide()', ' ScreenUI.ShowPopup("Party") MainMenu:hide()', ---플레이어, 메시지,  파티'
 

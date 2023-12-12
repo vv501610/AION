@@ -185,3 +185,11 @@ function ItemDocePanelUp(dataID, count)
    object.questblindbutton.showOnTop=true
 end
 
+
+function MoveHome()
+   Client.ShowYesNoAlert('마을로 이동하시겠습니까? 파티에 속해있을 경우 자동 탈퇴합니다.', function(result)
+      if result == 1 then
+          Client.FireEvent("MoveHome")
+      end
+   end)
+end
