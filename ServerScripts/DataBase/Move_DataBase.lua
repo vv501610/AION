@@ -8,9 +8,9 @@ return {
 
             data = {
                 ['쉬움'] = {
-                    MonsterDataID = {1, 0, 2, 3, 0, 1, 2},
-                    MonsterCount = {50, 50, 50, 50, 50, 50, 50},
-                    MapData = {m = 4, x = 8,  y = 8, rmx = 0, rmy = 0, mmx = 29, mmy = 29} -- 맵 아이디, x축 , y축, 몬스터 소환 x축 크기, 몬스터 소환 y축 크기
+                    MonsterDataID = {10},
+                    MonsterCount = {20},
+                    MapData = {m = 4, x = 8,  y = 8, rmx = 2, rmy = 4, mmx = 28, mmy = 27} -- 맵 아이디, x축 , y축, 몬스터 소환 x축 크기, 몬스터 소환 y축 크기
                 },
                 ['보통'] = {
                     MonsterDataID = {1, 0},

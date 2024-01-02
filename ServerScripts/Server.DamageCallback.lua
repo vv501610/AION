@@ -2,14 +2,13 @@
 
 
 local LUK_TO_CRI = 0.01 -- 102스텟 1당 크리티컬 확률 0.01% 상승
-local AGI_TO_DEAL = 0.1 -- 103스탯 1당 크리티컬 대미지 2.5% 상승
+local AGI_TO_DEAL = 0.1 -- 103스탯 1당 크리티컬 대미지 20.1% 상승
 
 
 Server.damageCallback = function(a, b, damage, skID, cri, visible)
 	if not a or not b then
 		return false
 	end
-
 	-- if damage < 1 then -- 대미지가 1 미만일 때 대미지 미표시
 	-- 	return 0, false, false
 	-- end

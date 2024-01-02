@@ -1,7 +1,7 @@
 ---@diagnostic disable: undefined-global
 
 
-local data = require('DataBase/Monster_DataBase')
+
 
 local MoveDataList = require('DataBase/Move_DataBase')
 
@@ -49,16 +49,15 @@ local function MoveFunction(list, value)
         unit.customData.FieldDataId.JoinUnit(unit, Point(data.MapData.x*32, data.MapData.y*-32))
         unit.SendCenterLabel('잠시후 몬스터가 스폰 됩니다.')
         local unit = unit
+        unit.customData.FieldRect = {data.MapData.rmx, data.MapData.mmx, data.MapData.rmy, data.MapData.mmy}
+        
             Server.RunLater(function()  
                 for _ = 1, data.MonsterCount[value] do
                     unit.customData.FieldDataId.SpawnEnemy(data.MonsterDataID[value], rand(data.MapData.rmx, data.MapData.mmx)*32, rand(data.MapData.rmy, data.MapData.mmy)*-32)
                 end
             end, 3)
-
     else
         unit.SpawnAtFieldID(data.MapData[value].m, data.MapData[value].x*32, data.MapData[value].y*-32)
-
-
 
     end
 
