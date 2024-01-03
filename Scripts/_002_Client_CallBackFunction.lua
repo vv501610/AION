@@ -1,7 +1,7 @@
 ---@diagnostic disable: need-check-nil, undefined-field
 
 
-BattlePower = 100233 -- 전투력변수
+BattlePower = 0 -- 전투력변수
 
 
 function C_commaValue(n) ---숫자 컴마 찍기
@@ -139,8 +139,14 @@ function MonsterCombatPower(id) --- 전투력 공식 나중에 수정 해야함!
 
    local monster = Client.GetMonster(id)
 
+
+
+   local total = math.ceil(monster.attack + monster.defense + (monster.maxHP/10))
+
+   -- print(monster.attack, monster.defense, monster.maxHP)
+
    
-   return 10000
+   return total
 end
 
 
@@ -193,3 +199,10 @@ function MoveHome()
       end
    end)
 end
+
+
+Client.GetTopic("BattlePowerUpdate").Add(function(atk, def, maxHP, maxMP, cri, criDamage, bossDamage, perHp, perMp, MoveSpeed, neverDef, PenetrationDef)
+
+   BattlePower = math.ceil(atk + def + (maxHP/10) + (maxMP/5) + cri + criDamage + bossDamage + perHp + perMp + MoveSpeed + neverDef + PenetrationDef)
+
+end)
