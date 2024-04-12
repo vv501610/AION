@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 Client.damageCallback = function(b, damage, skillDataID)
 	-- 피격 유닛의 초기 검사
 	if not b or damage < 1 then

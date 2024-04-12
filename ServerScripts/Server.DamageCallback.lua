@@ -1,20 +1,28 @@
+---@diagnostic disable: undefined-global
 
 
 
 local LUK_TO_CRI = 0.01 -- 102스텟 1당 크리티컬 확률 0.01% 상승
-local AGI_TO_DEAL = 0.1 -- 103스탯 1당 크리티컬 대미지 20.1% 상승
+local AGI_TO_DEAL = 0.1 -- 103스탯 1당 크리티컬 대미지 0.1% 상승
 
 
 Server.damageCallback = function(a, b, damage, skID, cri, visible)
 	if not a or not b then
 		return false
+		
 	end
 	-- if damage < 1 then -- 대미지가 1 미만일 때 대미지 미표시
 	-- 	return 0, false, false
 	-- end
  
 	local bdef = b.def
-	local penetration_rate = a.GetStat(109)/1000-- 방어력 관통률 10%y
+	local penetration_rate = (a.GetStat(109)/1000)-- 방어력 관통률 10%y  방관 스텟이 1000일 경우 방관 100% 적용
+
+	-- print(penetration_rate, a.GetStat(109))
+	if penetration_rate > 1 then --방관이 스텟이 1000초과시 1000으로 고정
+		penetration_rate = 1
+		
+	end
 
 	-- 방어력에서 방어력 관통률을 적용
 	local effective_bdef = bdef * (1 - penetration_rate)

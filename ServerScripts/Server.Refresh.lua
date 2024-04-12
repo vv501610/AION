@@ -42,6 +42,10 @@ local function UnitStatsUpdata(unit)
         unit.GetStat(108),
         unit.GetStat(109)
         )
+
+        -- unit.StartGlobalEvent(1)
+     
+        
 end
 
 

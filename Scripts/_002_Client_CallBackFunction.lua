@@ -3,6 +3,24 @@
 
 BattlePower = 0 -- 전투력변수
 
+Client.GetTopic("BattlePowerUpdate").Add(function(atk, def, maxHP, maxMP, cri, criDamage, bossDamage, perHp, perMp, MoveSpeed, neverDef, PenetrationDef)
+
+   -- BattlePower = math.ceil(atk + def + (maxHP/10) + (maxMP/5) + cri + criDamage + bossDamage + perHp + perMp + MoveSpeed + neverDef + PenetrationDef)
+
+
+   NextbattlePower = math.ceil(atk + def + (maxHP/10) + (maxMP/5) + (cri*3) + (criDamage*3) + bossDamage + perHp + perMp + (MoveSpeed*10) + (neverDef*50) + (PenetrationDef*15))
+
+
+   BattlePowerUpdatePanel:ShowUp(BattlePower, NextbattlePower)
+
+
+end)
+
+
+ItemType = {'모자', '갑옷', '무기', '방패', '신발', '반지', '악세서리', '날개', '포션', '재료', '소모품'}
+
+AtkItemType = {'모자', '갑옷', '무기', '방패', '신발', '반지', '악세서리'} --'날개'}
+
 
 function C_commaValue(n) ---숫자 컴마 찍기
 
@@ -30,9 +48,9 @@ function FormatNumber(number) -- print(formatNumber(100321100)) -- retrue 1억32
    return result
  end
 
+
+
  
-
-
 local BackLoadingpanel, LoadingImg, garfatext  = nil, nil, nil
 
 
@@ -76,6 +94,9 @@ end
 
 
 function LoadingPanelDestroy()
+   if not BackLoadingpanel then
+      return false
+   end
    Client.onTick.Remove(LoadingFuntion)
    BackLoadingpanel.Destroy()
    LoadingImg.Destroy()
@@ -99,7 +120,11 @@ function HelpNote(title, text) -- HelpButtonClick  --도움말 버튼
    HelpNote.qimg = Image("Pictures/Gui/밝버튼.png", Rect(HelpNote.MainPanel.width/2-50, 282, 100, 30))
    HelpNote.MainPanel.AddChild(HelpNote.qimg)
 
-   HelpNote.TitleText = Text("", Rect(0, 10, 483, 30)) {
+   -- HelpNote.TopBlackPanel = Panel(Rect(1, 1, 482, 60))
+   -- HelpNote.MainPanel.AddChild(HelpNote.TopBlackPanel)
+   -- HelpNote.TopBlackPanel.SetOpacity(200)
+
+   HelpNote.TitleText = Text("", Rect(0, 15, 483, 30)) {
       textAlign = 1,
       textSize = 22,
       autoTranslate = true,
@@ -112,7 +137,7 @@ function HelpNote(title, text) -- HelpButtonClick  --도움말 버튼
 
 
 
-   HelpNote.Ttext = Text("", Rect(10, 60, 483, 300)) {
+   HelpNote.Ttext = Text("", Rect(10, 65, 483, 300)) {
       textAlign = 0,
       textSize = 15,
       autoTranslate = true,
@@ -168,13 +193,13 @@ function ItemDocePanelUp(dataID, count)
    end
        object.questblindnametext.text = Client.GetItem(dataID).name
 
-   object.questblinddesctext=Text(Client.GetItem(dataID).desc,Rect(5,45,230,230))
-   object.qimg = Image("Pictures/Gui/밝버튼.png", Rect(object.questskinny.width/2-50,230,100,30))
+   object.questblinddesctext=Text(Client.GetItem(dataID).desc, Rect(5, 45, 230, 230))
+   object.qimg = Image("Pictures/Gui/밝버튼.png", Rect(object.questskinny.width/2-50 ,230, 100, 30))
    object.questskinny2.AddChild(object.qimg)
 
-   object.questblindConfirmtext = Button('확인', Rect(object.questskinny.width/2-50,230,100,30))
+   object.questblindConfirmtext = Button('확인', Rect(object.questskinny.width/2-50, 230, 100, 30))
    object.questblindConfirmtext.SetOpacity(0)
-   object.questblindConfirmtext.onClick.Add(function()object.questblindbutton.Destroy()object.questblindbutton=nil end)
+   object.questblindConfirmtext.onClick.Add(function() object.questblindbutton.Destroy() object.questblindbutton = nil end)
 
    object.questblindnametext.textSize = 15.5
    object.questblinddesctext.textAlign = 0
@@ -201,8 +226,18 @@ function MoveHome()
 end
 
 
-Client.GetTopic("BattlePowerUpdate").Add(function(atk, def, maxHP, maxMP, cri, criDamage, bossDamage, perHp, perMp, MoveSpeed, neverDef, PenetrationDef)
 
-   BattlePower = math.ceil(atk + def + (maxHP/10) + (maxMP/5) + cri + criDamage + bossDamage + perHp + perMp + MoveSpeed + neverDef + PenetrationDef)
+-- callback.ttype = {"", "직업", "직업", "아이템", "아이템"}
 
-end)
+-- callback.statName = {"공격력","방어력","경험치 획득량(%)","골드 획득량","회피율","명중률","체력","마력"}
+
+-- callback.statName2 = {Client.GetStrings().custom1,Client.GetStrings().custom2,Client.GetStrings().custom3,Client.GetStrings().custom4,Client.GetStrings().custom5,Client.GetStrings().custom6,Client.GetStrings().custom7,Client.GetStrings().custom8,Client.GetStrings().custom9,Client.GetStrings().custom10,Client.GetStrings().custom11,Client.GetStrings().custom12,Client.GetStrings().custom13,Client.GetStrings().custom14,Client.GetStrings().custom15,Client.GetStrings().custom16,Client.GetStrings().custom17,Client.GetStrings().custom18,Client.GetStrings().custom19,Client.GetStrings().custom20,Client.GetStrings().custom21,Client.GetStrings().custom22,Client.GetStrings().custom23,Client.GetStrings().custom24,Client.GetStrings().custom25,Client.GetStrings().custom26,Client.GetStrings().custom27,Client.GetStrings().custom28,Client.GetStrings().custom29,Client.GetStrings().custom30,Client.GetStrings().custom31,Client.GetStrings().custom32}
+
+
+
+
+-- texty = Text('', Rect(100, 0, 200, 200))
+
+-- Tween.DONumber(0, 100, 3, function(value)
+--       texty.text = "전투력 " .. value
+-- end)

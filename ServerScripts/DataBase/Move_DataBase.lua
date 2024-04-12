@@ -8,8 +8,8 @@ return {
 
             data = {
                 ['쉬움'] = {
-                    MonsterDataID = {10, 11},
-                    MonsterCount = {20, 20},
+                    MonsterDataID = {10, 11, 12, 13},
+                    MonsterCount = {1000, 20, 20, 20},
                     MapData = {m = 4, x = 8,  y = 8, rmx = 2, rmy = 4, mmx = 28, mmy = 27} -- 맵 아이디, x축 , y축, 몬스터 소환 x축 크기, 몬스터 소환 y축 크기
                 },
                 ['보통'] = {
@@ -37,7 +37,7 @@ return {
         ['아시아 대륙'] = {
             explanation = "으악",
             img = "사냥터 (22).png",
-            bool = 1500,
+            bool = 5,
         
             data = {
                 ['쉬움'] = {

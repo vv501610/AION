@@ -49,37 +49,63 @@ xp.AddChild(xp_orb22)
 
 xp.showOnTop = true
 
-
 exp_text.showOnTop = true
 
 
+local BattlePowewPanel = Panel(Rect(-130, -35, 120, 20)) {
+    anchor = 8
+}
+BattlePowewPanel.setOpacity(150)
+
+BattlePowewPanel.AddChild(Image("Pictures/Gui/BattlePower.png", Rect(5, 2.5, 15, 15)))
+
+local BattlePowewDownText = Text("044343", Rect(20, 2.6, 100, 20)) {
+    textAlign = 1,
+    textSize = 11
+}
+BattlePowewPanel.AddChild(BattlePowewDownText)
+
+
+
+
+
+local delay = 0
+
 function Orb(dt)
 
-    me = Client.myPlayerUnit
+    delay = delay + dt
+    if delay > 0.01 then
+        me = Client.myPlayerUnit
 
-    xp.DOScale(Point(me.exp/me.maxEXP, 1), 0.9)
+        xp.DOScale(Point(me.exp/me.maxEXP, 1), 0.9)
+    
+        local per = string.format("%.2f", me.exp / me.maxEXP * 100)
+    
+        if Client.myPlayerUnit.maxEXP == 0 then
+            exp_text.text = "최대 레벨 달성" 
+        else
+    
+    
+        exp_text.text = 'EXP: '..C_commaValue(me.exp).."/"..C_commaValue(me.maxEXP).." ("..per.."%)"
+    
+        end
+    
+        maxHP = math.floor(me.hp / me.maxHP * 100)
+        maxMP = math.floor(me.mp / me.maxMP * 100)
+        Thp = 150 * maxHP / 100
+        Tmp = 150 * maxMP / 100
+        HP.rect = Rect(87, 10, Thp, 12.5)
+        MP.rect = Rect(87, 23.5, Tmp, 12.5)
+        HPtxt.text = C_commaValue(Client.myPlayerUnit.hp) .. " / " ..C_commaValue(Client.myPlayerUnit.maxHP)
+        MPtxt.text = C_commaValue(Client.myPlayerUnit.mp).." / "..C_commaValue(Client.myPlayerUnit.maxMP)
 
-    local per = string.format("%.2f", me.exp / me.maxEXP * 100)
-
-    if Client.myPlayerUnit.maxEXP == 0 then
-        exp_text.text = "최대 레벨 달성" 
-    else
-
-
-    exp_text.text = 'EXP: '..C_commaValue(me.exp).."/"..C_commaValue(me.maxEXP).." ("..per.."%)"
-
+        BattlePowewDownText.text = FormatNumber(BattlePower)
+        delay = 0
     end
+    
 
 
-    maxHP = math.floor(me.hp / me.maxHP * 100)
-    maxMP = math.floor(me.mp / me.maxMP * 100)
-    Thp = 150 * maxHP / 100
-    Tmp = 150 * maxMP / 100
-    HP.rect = Rect(87, 10, Thp, 12.5)
-    MP.rect = Rect(87, 23.5, Tmp, 12.5)
-    HPtxt.text = C_commaValue(Client.myPlayerUnit.hp) .. " / " ..C_commaValue(Client.myPlayerUnit.maxHP)
-    MPtxt.text = C_commaValue(Client.myPlayerUnit.mp).." / "..C_commaValue(Client.myPlayerUnit.maxMP)
-
+    -- BattlePower
 
 
 end

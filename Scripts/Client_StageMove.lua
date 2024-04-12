@@ -63,8 +63,6 @@ function Stage:DungeonUp()
 	self.menwscroll_panel.AddChild(self.WHfektnPanel)
 	self.menwscroll_panel.content = self.WHfektnPanel
 
-
-
 end
 
 
@@ -192,24 +190,27 @@ function MainGui:StageGround(name) -- 개인 사냥터 따로 처리
         end)
 
 
-        if value.bool > Client.myPlayerUnit.level then
-            local MainPanelLoocka2 = Panel(Rect(0, 0, 248, 275))
-            MainPanelLoocka2.SetOpacity(190)
-            a.AddChild(MainPanelLoocka2)
-
-            MainPanelLoocka2.AddChild(Image('Pictures/Gui/premium-icon-padlock-3934062.png', Rect(94, 60, 60, 60)))
-
-            local text = Text('', Rect(0, 175, 248, 100)){
-                borderDistance = Point(1, 1),
-                borderEnabled = true,
-                color = Color(255, 51, 51, 255),
-                textSize = 18,
-                textAlign = 1,
-                autoTranslate = true,
-                text = 'Lv: '..C_commaValue(value.bool)..'부터 이용 가능합니다.',
-            }
-            MainPanelLoocka2.AddChild(text)
-        end
+        Client.RunLater(function ()
+            if value.bool > Client.myPlayerUnit.level then
+                local MainPanelLoocka2 = Panel(Rect(0, 0, 248, 275))
+                MainPanelLoocka2.SetOpacity(190)
+                a.AddChild(MainPanelLoocka2)
+    
+                MainPanelLoocka2.AddChild(Image('Pictures/Gui/premium-icon-padlock-3934062.png', Rect(94, 60, 60, 60)))
+    
+                local text = Text('', Rect(0, 175, 248, 100)){
+                    borderDistance = Point(1, 1),
+                    borderEnabled = true,
+                    color = Color(255, 51, 51, 255),
+                    textSize = 18,
+                    textAlign = 1,
+                    autoTranslate = true,
+                    text = 'Lv: '..C_commaValue(value.bool)..'부터 이용 가능합니다.',
+                }
+                MainPanelLoocka2.AddChild(text)
+            end
+            
+        end, 0.5)
     end
 
     self.StageGroundData.WHfektnPanel.rect = Rect(0, 0, 2+253*count, 270)
