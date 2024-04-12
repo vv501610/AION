@@ -17,7 +17,6 @@ MainGui.TopPanelData = {
 }
 -- MainGui.Ysize = {}
 
-MainGui.TopPanelTable = {P = {}, I = {}, T = {}}
 
 MainGui.HelpTitleText = '도움말'
 
@@ -50,13 +49,15 @@ end
 
 function MainGui:BackGrundPanelUp()
 
+    self.TopPanelTable = {P = {}, I = {}, T = {}} -- 위 골드패널들 객체 생성
+
     self.BackGrundPanel = Panel(Rect(0, 0, Client.width, Client.height))
-
-
     self.BackGrundPanel.showOnTop = true
     self.BackGrundPanel.visible = false
 
+
     self.BackWhitekPanel = Image("Pictures/EntireScrean/NomalPanel2.png", Rect(0, 0, self.BackGrundPanel.width, self.BackGrundPanel.height))
+
 
 
     self.BackGrundPanel.AddChild(self.BackWhitekPanel)
@@ -104,6 +105,8 @@ end
 
 function MainGui:TopPanel()
 
+
+
     for key = 1, #self.TopPanelData.Image do
         local rr = Client.width - 200 -((1-key)*-120)
         self.TopPanelTable.P[key] = Image('Pictures/EntireScrean/골드패널2.png',Rect(rr, -20, 110, 20))
@@ -118,6 +121,8 @@ function MainGui:TopPanel()
             borderDistance = Point(1, 1),
             borderEnabled = true,
         }
+        -- self.TopPanelTable.T[key].visible = true
+        
         -- self.TopPanelTable.T[key] = Text('1', Rect(rr+5, -20, 110, 20)) {
         --     textAlign = 1,
         --     pivotY = -0.1,

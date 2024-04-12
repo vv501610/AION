@@ -85,7 +85,7 @@ MainMenu.BottomOnClick = {
 
     'ScreenUI.ShowPopup("Clan") MainMenu:hide()', 'ScreenUI.ShowPopup("Mailbox") MainMenu:hide()', 'Client.ShowCenterLabel("업데이트 예정입니다. 창고")', ---클랜, 우편함, 창고
 
-    'Client.ShowCenterLabel("업데이트 예정입니다.nft창고")', 'Client.ShowCenterLabel("업데이트 예정입니다. 플레이")', 'Client.ShowCenterLabel("업데이트 예정입니다.제작")',--- bft창고, 플레이창고, 제작
+    'Client.ShowCenterLabel("업데이트 예정입니다.nft창고")', 'Client.ShowCenterLabel("업데이트 예정입니다. 플레이")', 'Making:ShowAnimationTotal()',--- bft창고, 플레이창고, 제작
 
     'ScreenUI.ShowPopup("GameSettings")', 'Client.ShowYesNoAlert("정말 종료 하시겠습니까?", function(isYes) if isYes == 1 then Client.Quit() else end end)' --- 게임 설정, 게임
 }
@@ -99,7 +99,7 @@ MainMenu.lockicon = {}
 
 MainMenu.LevelRedText = {}
 
-MainMenu.menu_level = {0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 450, 5000, 0, 0, 0, 0, 0, 0 }
+MainMenu.menu_level = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 5000, 0, 0, 0, 0, 0, 0 }
 
 for i = 1, #MainMenu.menu_icon, 1 do
     MainMenu.menu_item[i] = Button("", Rect(0, 0, 44, 46))
