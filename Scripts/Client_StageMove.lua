@@ -1,9 +1,11 @@
 ---@diagnostic disable: undefined-global
 local Mdata = require('DataBase/MonsterDataBase')
 
-local Class = require("_001_midclass")
+local Class = require("Utils/_001_midclass")
+local Main = require("_005_Client_MainGui")
+local CallBack = require("Utils/_002_Client_CallBackFunction")
 
-Stage = Class('Stage', MainGui)
+Stage = Class('Stage', Main)
 
 
 
@@ -24,7 +26,7 @@ Stage.TopPanelData = {
     Image = {"Pictures/Gui/BattlePower.png"},
     value = {
         [1] = function ()
-                return C_commaValue(BattlePower)
+                return CallBack:C_commaValue(CallBack.BattlePower)
             
         end,
 
@@ -119,7 +121,7 @@ end
 
 
 
-function MainGui:StageGround(name) -- 개인 사냥터 따로 처리
+function Stage:StageGround(name) -- 개인 사냥터 따로 처리 -----------------------------------------maingui
 
 
     self.StageGroundData.menwscroll_panel = ScrollPanel(Rect(3, 40, Client.width-16, 295)) {
@@ -183,7 +185,7 @@ function MainGui:StageGround(name) -- 개인 사냥터 따로 처리
 
         a.onClick.Add(function()
             if value.bool > Client.myPlayerUnit.level then
-                Client.ShowCenterLabel("해당 지역은 Lv:"..C_commaValue(value.bool)..'부터 이동 가능합니다.')
+                Client.ShowCenterLabel("해당 지역은 Lv:"..CallBack:C_commaValue(value.bool)..'부터 이동 가능합니다.')
                 return false
             end
             self:ClickPublicReturn(self.data[name][i])
@@ -205,7 +207,7 @@ function MainGui:StageGround(name) -- 개인 사냥터 따로 처리
                     textSize = 18,
                     textAlign = 1,
                     autoTranslate = true,
-                    text = 'Lv: '..C_commaValue(value.bool)..'부터 이용 가능합니다.',
+                    text = 'Lv: '..CallBack:C_commaValue(value.bool)..'부터 이용 가능합니다.',
                 }
                 MainPanelLoocka2.AddChild(text)
             end
@@ -347,7 +349,7 @@ function Stage:SecendCategoleClick(data) -- 하위 두번째 카테고리 클릭
         local PowerText = Text('', Rect(120, 34, 180, 45)) {
             textAlign = 0,
             textSize = 14,
-            text = '전투력:'..C_commaValue(MonsterCombatPower(value)),
+            text = '전투력:'..CallBack:C_commaValue(MonsterCombatPower(value)),
 
             color = Color(255, 0, 0, 255)
         }
@@ -358,7 +360,7 @@ function Stage:SecendCategoleClick(data) -- 하위 두번째 카테고리 클릭
             textAlign = 0,
             textSize = 14,
             autoTranslate = true,
-            text = '공격력:'..C_commaValue(Client.GetMonster(value).attack),
+            text = '공격력:'..CallBack:C_commaValue(Client.GetMonster(value).attack),
             color = Color(128, 128, 128, 255)
         }
         self.SecendCategoleInButtonImg[key].AddChild(atk)
@@ -367,13 +369,18 @@ function Stage:SecendCategoleClick(data) -- 하위 두번째 카테고리 클릭
             textAlign = 0,
             textSize = 14,
             autoTranslate = true,
-            text = '방어력:'..C_commaValue(Client.GetMonster(value).defense),
+            text = '방어력:'..CallBack:C_commaValue(Client.GetMonster(value).defense),
             color = Color(128, 128, 128, 255)
         }
         self.SecendCategoleInButtonImg[key].AddChild(def)
 
+        local inimg = Image("Pictures/Gui/ChoicePanel.png", Rect(300, 25, self.BlackPanel.width - 550, 50))
+        inimg.imageType = 1
 
-        self.SecendCategoleInButtonImg[key].AddChild(Image("Pictures/Gui/ChoicePanel.png", Rect(300, 25, self.BlackPanel.width - 550, 50)))
+        self.SecendCategoleInButtonImg[key].AddChild(inimg)
+
+
+        
         local ScrollDropPanel = ScrollPanel(Rect(300, 25, self.BlackPanel.width - 550, 50))
 
         ScrollDropPanel.setOpacity(0)
@@ -467,6 +474,6 @@ Client.GetTopic("Client:Stage:ServerDataUp").Add(function(list)
     Stage:DungeonGetTopicUp(list)
 end)
 
-Stage:initialize()
 
+Stage:initialize()
 

@@ -1,17 +1,28 @@
 ---@diagnostic disable: need-check-nil, undefined-field
 
+CallBack = {}
 
-BattlePower = 0 -- 전투력변수
+
+CallBack.BattlePower = 0 -- 전투력변수
+
+CallBack.GameGold = 0 -- 현재 내 게임 골드
+
+Client.GetTopic("UpdateGold").Add(function(money)
+   CallBack.GameGold = money
+end)
+
+
+
 
 Client.GetTopic("BattlePowerUpdate").Add(function(atk, def, maxHP, maxMP, cri, criDamage, bossDamage, perHp, perMp, MoveSpeed, neverDef, PenetrationDef)
 
    -- BattlePower = math.ceil(atk + def + (maxHP/10) + (maxMP/5) + cri + criDamage + bossDamage + perHp + perMp + MoveSpeed + neverDef + PenetrationDef)
 
 
-   NextbattlePower = math.ceil(atk + def + (maxHP/10) + (maxMP/5) + (cri*3) + (criDamage*3) + bossDamage + perHp + perMp + (MoveSpeed*10) + (neverDef*50) + (PenetrationDef*15))
+   CallBack.NextbattlePower = math.ceil(atk + def + (maxHP/10) + (maxMP/5) + (cri*3) + (criDamage*3) + bossDamage + perHp + perMp + (MoveSpeed*10) + (neverDef*50) + (PenetrationDef*15))
 
 
-   BattlePowerUpdatePanel:ShowUp(BattlePower, NextbattlePower)
+   BattlePowerUpdatePanel:ShowUp(CallBack.BattlePower, CallBack.NextbattlePower)
 
 
 end)
@@ -22,7 +33,7 @@ ItemType = {'모자', '갑옷', '무기', '방패', '신발', '반지', '악세�
 AtkItemType = {'모자', '갑옷', '무기', '방패', '신발', '반지', '악세서리'} --'날개'}
 
 
-function C_commaValue(n) ---숫자 컴마 찍기
+function CallBack:C_commaValue(n) ---숫자 컴마 찍기
 
    local left,num,right = string.match(n,'^([^%d]*%d)(%d*)(.-)$')
 
@@ -31,7 +42,7 @@ function C_commaValue(n) ---숫자 컴마 찍기
 end
 
 
-function FormatNumber(number) -- print(formatNumber(100321100)) -- retrue 1억32만1100
+function CallBack:FormatNumber(number) -- print(formatNumber(100321100)) -- retrue 1억32만1100
    local units = {"", "만", "억", "조"}
    local result = ""
    local unitIndex = 1
@@ -226,6 +237,7 @@ function MoveHome()
 end
 
 
+return CallBack
 
 -- callback.ttype = {"", "직업", "직업", "아이템", "아이템"}
 

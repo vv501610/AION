@@ -2,9 +2,13 @@
 
 
 
-local Class = require("_001_midclass")
+local Class = require("Utils/_001_midclass")
 
-Making = Class('Making', MainGui)
+local Main = require("_005_Client_MainGui")
+
+local CallBack = require("Utils/_002_Client_CallBackFunction")
+
+Making = Class('Making', Main)
 
 
 
@@ -22,10 +26,10 @@ Making.HelpTextext = '아이템을 제작 할 수 있습니다.'
 
 
 Making.TopPanelData = {
-    Image = {"Pictures/Gui/BattlePower.png"},
+    Image = {"Icons/Item_0091.png"},
     value = {
         [1] = function ()
-                return C_commaValue(BattlePower)
+                return CallBack:C_commaValue(CallBack.GameGold)
             
         end,
 
@@ -214,7 +218,7 @@ function Making:MakingGetTopicUp(MenuName, MenuList, ItemCount, UnitGold)
 	data.mainMenuScrollPanel.AddChild(data.mainMenuSon)
 
 	data.mainMenuScrollPanel.content = data.mainMenuSon
-	data.happy_panel = {} data.Choice_but = {} data.happy_butSetimG = {} --data.MainMenuButton = {}
+	data.happy_panel = {} data.Choice_but = {} data.happy_butSetimG = {} data.PanelColor = {}
 
 	-- data.bagic2 = Color(111, 111, 111, 255)
 
@@ -376,28 +380,35 @@ function Making:ItemListF(bb, i)
 	-- data.inL.rect = Rect(0, 0, 205, 45*#data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].dataID)
 
 	for j, n in pairs(data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].dataID) do
-		local happy_but = Button('', Rect(0, 5+45*(j-1), data.inL.width, 40))
-		happy_but.color = Color(0, 0, 0, 255)
+		data.PanelColor[j] = Button('', Rect(0, 5+45*(j-1), data.inL.width, 40)) {
+			color = Color(76, 78, 85, 255)
+		}
 
-		-- data.happy_butSetimG[j]= Image('Pictures/상점2.png', Rect(5, 5+45*(j-1), data.inL.width-10, 40))
 
-		-- data.inL.AddChild(data.happy_butSetimG[j])
-		data.inL.AddChild(happy_but)
+		local inpanel = Panel(Rect(2.5, 2.5, data.inL.width-5, 35)) {
+			color = Color(29, 30, 31, 255)
+		}
+		data.PanelColor[j].AddChild(inpanel)
 
-		local icon_panel = Panel(Rect(1, 1, happy_but.height-2, happy_but.height-2))
+		
+		data.inL.AddChild(data.PanelColor[j])
+
+		local icon_panel = Panel(Rect(3, 3, data.PanelColor[j].height-6, data.PanelColor[j].height-6))
 		icon_panel.setOpacity(100) --- 0
-		happy_but.AddChild(icon_panel)
+		data.PanelColor[j].AddChild(icon_panel)
 
 		local happy_image = Image('', Rect(0, 0, icon_panel.width, icon_panel.height))
 		happy_image.SetImageID(Client.GetItem(n).imageID)
 		icon_panel.AddChild(happy_image)
 
-		local happy_text = Text(Client.GetItem(n).name, Rect(icon_panel.width+7, 0, happy_but.width-icon_panel.width-10, happy_but.height))
+		local happy_text = Text(Client.GetItem(n).name, Rect(icon_panel.width+7, 0, data.PanelColor[j].width-icon_panel.width-10, data.PanelColor[j].height))
 		happy_text.textSize = 14
 		happy_text.textAlign = 3
-		happy_but.AddChild(happy_text)
+		data.PanelColor[j].AddChild(happy_text)
 
-		happy_but.onClick.Add(function()
+		data.PanelColor[j].onClick.Add(function()
+			data.PanelColor[b].color = Color(29, 30, 31, 255)
+			data.PanelColor[j].color = Color(255, 189, 0)
 			-- callback:ClickUpTest(data.happy_butSetimG[j])
 			--j = 1
 			self:ItemMakingFinel(i, j, n, bb)
@@ -407,6 +418,8 @@ function Making:ItemListF(bb, i)
 			self:ItemMakingFinel(i, b, n, bb)
 		end
 	end
+
+	data.PanelColor[b].color = Color(255, 189, 0)
 end
 
 
@@ -437,7 +450,7 @@ function Making:ItemMakingFinel(i, j, n, bb)
 	local aaasd = Panel(Rect(data.Make_Panel2.width*0.440625, 0, data.Make_Panel2.width*0.2625, 268))
 	aaasd.setOpacity(255)
 	asd.AddChild(aaasd)
-	-- asd.AddChild(Image('Pictures/거래소구매이미지.png', Rect(0, 0, 210, 268)))
+	aaasd.AddChild(Image('Pictures/Gui/메인 패널.png', Rect(0, 0, aaasd.width, aaasd.height)))
 	data.sendPanel.AddChild(asd)
 
 	data2.ItemPanel = Panel(Rect(75, 10, 60, 60))
@@ -513,7 +526,7 @@ function Making:ItemMakingFinel(i, j, n, bb)
 	data2.ItemCount[1].setOpacity(255)
 	data2.itemScrollPaneladd.AddChild(data2.ItemCount[1])
 
-	-- data2.ItemCount[1].AddChild(Image('Pictures/상점3.png',Rect(0, 0, 200, 60)))
+	data2.ItemCount[1].AddChild(Image('Pictures/Gui/ChoicePanel.png',Rect(0, 0, data2.ItemCount[1].width, 60)))
 	
 	local img = Image("Icons/Item_0091.png", Rect(10, 12.5, 35, 35))
 	data2.ItemCount[1].AddChild(img)
@@ -523,7 +536,7 @@ function Making:ItemMakingFinel(i, j, n, bb)
 	ItemText.textSize = 12
 	data2.ItemCount[1].AddChild(ItemText)
 
-	local NowItemCount = data.Gold >= data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].gold[j] and C_commaValue(data.Gold) or "<color=#FF0000>"..C_commaValue(data.Gold).."</color>"
+	local NowItemCount = data.Gold >= data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].gold[j] and CallBack:C_commaValue(data.Gold) or "<color=#FF0000>"..C_commaValue(data.Gold).."</color>"
 
 	data2.ItemCoeuntText[1] = Text('소지:'..NowItemCount ,Rect(50, 25, 139, 30))
 	data2.ItemCoeuntText[1].textAlign = 0
@@ -531,7 +544,7 @@ function Making:ItemMakingFinel(i, j, n, bb)
 	data2.ItemCount[1].AddChild(data2.ItemCoeuntText[1])
 
 
-	data2.NowItemCoeuntText[1] = Text('필요:'..C_commaValue(data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].gold[j]), Rect(50, 40, 139, 30))
+	data2.NowItemCoeuntText[1] = Text('필요:'..CallBack:C_commaValue(data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].gold[j]), Rect(50, 40, 139, 30))
 	data2.NowItemCoeuntText[1].textAlign = 0
 	data2.NowItemCoeuntText[1].textSize = 11
 	data2.ItemCount[1].AddChild(data2.NowItemCoeuntText[1])
@@ -540,14 +553,14 @@ function Making:ItemMakingFinel(i, j, n, bb)
 	data2.ItemCount[2].setOpacity(255)
 	data2.itemScrollPaneladd.AddChild(data2.ItemCount[2])
 
-	-- data2.ItemCount[2].AddChild(Image('Pictures/상점3.png',Rect(0, 0, 200, 60)))
+	data2.ItemCount[2].AddChild(Image('Pictures/Gui/ChoicePanel.png',Rect(0, 0, data2.ItemCount[2].width, 60)))
 
 	local ItemText = Text("제작 성공 확률",Rect(50, 10, 139, 30))
 	ItemText.textAlign = 0
 	ItemText.textSize = 12
 	data2.ItemCount[2].AddChild(ItemText)
 
-	local img = Image("Pictures/캡처 (1).png", Rect(7.5, 10, 40, 40))  -- 재작모영
+	local img = Image("Pictures/Gui/heder.png", Rect(7.5, 13, 35, 35))  -- 재작모영
 	--img.textSize = 30
 	data2.ItemCount[2].AddChild(img)
 
@@ -563,9 +576,9 @@ function Making:ItemMakingFinel(i, j, n, bb)
 		data2.ItemCount[k] = Button('', Rect(5, 5+((k-1)*60)+((k-1)*2), data2.itemScrollPanel.width-10, 60))
 		data2.ItemCount[k].SetOpacity(0)
 		data2.ItemCount[k].onClick.Add(function()
-			ItemDocePanelUp(data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].itemdataID[tostring(j)][k-2], C_commaValue(data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].itemcount[tostring(j)][k-2]))
+			ItemDocePanelUp(data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].itemdataID[tostring(j)][k-2], CallBack:C_commaValue(data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].itemcount[tostring(j)][k-2]))
 		end)
-		data2.ItemCount[k].AddChild(Image('Pictures/Gui/밝버튼.png',Rect(0, 0, 220, 60)))
+		data2.ItemCount[k].AddChild(Image('Pictures/Gui/ChoicePanel.png',Rect(0, 0, data2.ItemCount[k].width, 60)))
 		data2.itemScrollPaneladd.AddChild(data2.ItemCount[k])
 
 		local img = Image("", Rect(10, 12.5, 35, 35))
@@ -577,14 +590,14 @@ function Making:ItemMakingFinel(i, j, n, bb)
 		ItemText.textSize = 12
 		data2.ItemCount[k].AddChild(ItemText)
 
-		local NowItemCount = data.ItemCount[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].data[tostring(j)][k-2] >= data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].itemcount[tostring(j)][k-2] and C_commaValue(data.ItemCount[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].data[tostring(j)][k-2]) or "<color=#FF0000>"..C_commaValue(data.ItemCount[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].data[tostring(j)][k-2]).."</color>"
+		local NowItemCount = data.ItemCount[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].data[tostring(j)][k-2] >= data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].itemcount[tostring(j)][k-2] and CallBack:C_commaValue(data.ItemCount[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].data[tostring(j)][k-2]) or "<color=#FF0000>"..CallBack:C_commaValue(data.ItemCount[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].data[tostring(j)][k-2]).."</color>"
 
 		data2.ItemCoeuntText[k-1] = Text('소지:'..NowItemCount ,Rect(50, 25, 139, 30))
 		data2.ItemCoeuntText[k-1].textAlign = 0
 		data2.ItemCoeuntText[k-1].textSize = 11
 		data2.ItemCount[k].AddChild(data2.ItemCoeuntText[k-1])
 
-		data2.NowItemCoeuntText[k-1] = Text('필요:'..C_commaValue(data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].itemcount[tostring(j)][k-2]), Rect(50, 40, 139, 30))
+		data2.NowItemCoeuntText[k-1] = Text('필요:'..CallBack:C_commaValue(data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].itemcount[tostring(j)][k-2]), Rect(50, 40, 139, 30))
 		data2.NowItemCoeuntText[k-1].textAlign = 0
 		data2.NowItemCoeuntText[k-1].textSize = 11
 		data2.ItemCount[k].AddChild(data2.NowItemCoeuntText[k-1])
@@ -681,13 +694,13 @@ function Making:ItemMakingFinel(i, j, n, bb)
 end
 
 function Making:CountUpData(data, gold, itemcount, var, nowgold, data2, nowitem)
-	data2[1].text = '소지:'..(nowgold >= gold*var and C_commaValue(nowgold) or "<color=#FF0000>"..C_commaValue(nowgold).."</color>")
+	data2[1].text = '소지:'..(nowgold >= gold*var and CallBack:C_commaValue(nowgold) or "<color=#FF0000>"..CallBack:C_commaValue(nowgold).."</color>")
 
-	data[1].text = '필요:'..C_commaValue(gold*var)
+	data[1].text = '필요:'..CallBack:C_commaValue(gold*var)
 	
 	for i = 2, #data do
-		data2[i].text = '소지:'..(nowitem[i-1] >=itemcount[i-1]*var and C_commaValue(nowitem[i-1]) or "<color=#FF0000>"..C_commaValue(nowitem[i-1]).."</color>")
-		data[i].text = '필요:'..(C_commaValue(itemcount[i-1]*var))
+		data2[i].text = '소지:'..(nowitem[i-1] >=itemcount[i-1]*var and CallBack:C_commaValue(nowitem[i-1]) or "<color=#FF0000>"..CallBack:C_commaValue(nowitem[i-1]).."</color>")
+		data[i].text = '필요:'..(CallBack:C_commaValue(itemcount[i-1]*var))
 	end
 end
 

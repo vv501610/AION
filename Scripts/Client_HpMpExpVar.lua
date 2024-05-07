@@ -1,4 +1,4 @@
-﻿
+﻿local CallBack = require("Utils/_002_Client_CallBackFunction")
 
 
 local HPMPbg = Image("Pictures/gage/HP_MP_bg.png", Rect(86, 9, 152, 28)) -- HP, MP 게이지 뒷배경
@@ -86,7 +86,7 @@ function Orb(dt)
         else
     
     
-        exp_text.text = 'EXP: '..C_commaValue(me.exp).."/"..C_commaValue(me.maxEXP).." ("..per.."%)"
+        exp_text.text = 'EXP: '..CallBack:C_commaValue(me.exp).."/"..CallBack:C_commaValue(me.maxEXP).." ("..per.."%)"
     
         end
     
@@ -96,10 +96,10 @@ function Orb(dt)
         Tmp = 150 * maxMP / 100
         HP.rect = Rect(87, 10, Thp, 12.5)
         MP.rect = Rect(87, 23.5, Tmp, 12.5)
-        HPtxt.text = C_commaValue(Client.myPlayerUnit.hp) .. " / " ..C_commaValue(Client.myPlayerUnit.maxHP)
-        MPtxt.text = C_commaValue(Client.myPlayerUnit.mp).." / "..C_commaValue(Client.myPlayerUnit.maxMP)
+        HPtxt.text = CallBack:C_commaValue(Client.myPlayerUnit.hp) .. " / " ..CallBack:C_commaValue(Client.myPlayerUnit.maxHP)
+        MPtxt.text = CallBack:C_commaValue(Client.myPlayerUnit.mp).." / "..CallBack:C_commaValue(Client.myPlayerUnit.maxMP)
 
-        BattlePowewDownText.text = FormatNumber(BattlePower)
+        BattlePowewDownText.text = CallBack:FormatNumber(CallBack.BattlePower)
         delay = 0
     end
     
