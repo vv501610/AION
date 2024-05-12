@@ -40,26 +40,13 @@ local ItemCreateMenu = {
 
 
 Server.GetTopic("make:Up").Add(function()
-	local list = {}
-	local countitem = unit.CountItem
 
-	for h = 1, #but_name.main do -- 아이템 갯수 가져오기 출력형식: {"무기":{"data":{"1":[41,2428],"2":[41,3232]}},"방어구":{"data":{"1":[41,2428,3232,0,0]}},"악세사리":{"data":{"1":[41,2428]}},"소모품":{"data":{"1":[41,2428]}},"재료":{"data":{"1":[41,2428]}}}
-		list[but_name.main[h]] = {}
-		for jk = 1, #but_name.index[tostring(h)] do
-			list[but_name.main[h]][but_name.index[tostring(h)][jk]] = {data = {}}
-			for i, n in pairs(ItemCreateMenu[but_name.main[h]][but_name.index[tostring(h)][jk]].itemdataID) do
-				list[but_name.main[h]][but_name.index[tostring(h)][jk]].data[i] = {}
-				for l, k in pairs(n) do
-					list[but_name.main[h]][but_name.index[tostring(h)][jk]].data[i][l] = countitem(k)
-				end
-			end
-		end
-	end
-	unit.FireEvent("make:down", json.serialize(but_name), json.serialize(ItemCreateMenu), json.serialize(list), unit.gameMoney)
+	unit.FireEvent("make:down", json.serialize(but_name), json.serialize(ItemCreateMenu))
 end)
 
   
-Server.GetTopic("make:MakeUp").Add(function(menu, count, mincount, dataID, var)
+Server.GetTopic("make:MakeUp").Add(function(menu, count, mincount, var, nn)
+
 	local countitem = unit.CountItem
 
 	local data = {}
@@ -102,9 +89,9 @@ Server.GetTopic("make:MakeUp").Add(function(menu, count, mincount, dataID, var)
 		end
 	end
 
-	--unitSendCenterLabel.('아이템 '..var..'중에서 '..data.up..'개 조합 성공  '..data.down..'개 조합 실패')
 
-	unit.FireEvent("ItemMakeUpData", var, data.up, data.down, ItemCreateMenu[but_name.main[menu]][but_name.index[tostring(menu)][count]].dataID[mincount])
+	unit.FireEvent("UpdateGold", unit.gameMoney)
+	unit.FireEvent("ItemMakeUpData", var, data.up, data.down, ItemCreateMenu[but_name.main[menu]][but_name.index[tostring(menu)][count]].dataID[mincount], json.serialize({menu, mincount, nn, count}))
 	
 	unit.AddItem(ItemCreateMenu[but_name.main[menu]][but_name.index[tostring(menu)][count]].dataID[mincount], data.up, false)
 end)

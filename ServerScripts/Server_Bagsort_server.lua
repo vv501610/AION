@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 Server.GetTopic("Bagsort").Add(
 	function(number) -- HP 신호를 텍스트와 함께 받으면
 		--print(number)

@@ -28,9 +28,9 @@ Client.GetTopic("BattlePowerUpdate").Add(function(atk, def, maxHP, maxMP, cri, c
 end)
 
 
-ItemType = {'모자', '갑옷', '무기', '방패', '신발', '반지', '악세서리', '날개', '포션', '재료', '소모품'}
+CallBack.ItemType = {'모자', '갑옷', '무기', '방패', '신발', '반지', '악세서리', '날개', '포션', '재료', '소모품'}
 
-AtkItemType = {'모자', '갑옷', '무기', '방패', '신발', '반지', '악세서리'} --'날개'}
+CallBack.AtkItemType = {'모자', '갑옷', '무기', '방패', '신발', '반지', '악세서리'} --'날개'}
 
 
 function CallBack:C_commaValue(n) ---숫자 컴마 찍기
@@ -186,7 +186,7 @@ function MonsterCombatPower(id) --- 전투력 공식 나중에 수정 해야함!
 end
 
 
-function ItemDocePanelUp(dataID, count)
+function CallBack:ItemDocePanelUp(dataID, count)
    local object = {}
    object.questblindbutton = Panel(Rect(0, 0, Client.width, Client.height))
    object.questskinny = Panel(Rect(Client.width/2-120, Client.height/2-135, 240, 275))

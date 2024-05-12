@@ -1,4 +1,6 @@
----@diagnostic disable: missing-parameter
+---@diagnostic disable: missing-parameter, param-type-mismatch
+local CallBack = require("Utils/_002_Client_CallBackFunction")
+
 MainMenu = {}
 
 MainMenu.MainPanel = Panel(Rect(-6, 0, 208, 266))
@@ -107,7 +109,7 @@ for i = 1, #MainMenu.menu_icon, 1 do
 
     MainMenu.menu_item[i].onClick.Add(function()
         if MainMenu.menu_level[i] > Client.myPlayerUnit.level then
-            Client.ShowCenterLabel("해당 탭은 Lv:"..C_commaValue(MainMenu.menu_level[i])..'부터 사용 가능합니다.')
+            Client.ShowCenterLabel("해당 탭은 Lv:"..CallBack:C_commaValue(MainMenu.menu_level[i])..'부터 사용 가능합니다.')
             return false
         end
         Client.DoString(MainMenu.BottomOnClick[i])
@@ -153,7 +155,7 @@ for i = 1, #MainMenu.menu_icon, 1 do
     
 
 
-            MainMenu.LevelRedText[i] = Text('Lv:'..C_commaValue(MainMenu.menu_level[i]), Rect(0, 24, 44, 20)) {
+            MainMenu.LevelRedText[i] = Text('Lv:'..CallBack:C_commaValue(MainMenu.menu_level[i]), Rect(0, 24, 44, 20)) {
                 textAlign = 1,
                 textSize = 10,
                 borderDistance = Point(1, 1),

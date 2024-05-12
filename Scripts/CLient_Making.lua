@@ -1,4 +1,4 @@
----@diagnostic disable: param-type-mismatch, undefined-global, redundant-parameter, undefined-field, missing-parameter
+-- -@diagnostic disable: param-type-mismatch, undefined-global, redundant-parameter, undefined-field, missing-parameter
 
 
 
@@ -18,7 +18,7 @@ Making.Rect = Rect(Client.width/2 - 385, Client.height/2 - 190, 770, 360)
 Making.PanelName = "제작"
 
 
-Making.TopYellowPanelTrgre = '개인 사냥터' -- 매개인수 자료타입이 키값
+-- Making.TopYellowPanelTrgre = '개인 사냥터' -- 매개인수 자료타입이 키값
 
 
 Making.HelpTitleText = '도움말'
@@ -36,9 +36,6 @@ Making.TopPanelData = {
     }
 }
 
-local data = {}
-local a, b, c, d = 1, 1, 1, 1
-
 
 
 function Making:initialize()
@@ -50,657 +47,543 @@ end
 
 
 function Making:MakingUp()
-    self.a = 1
-    self.b = 1
-    self.c = 1
-    self.d = 1
-    self.TdTopLeftCategoleButtonTrgar = 1
-
-
-
-
-    self.cw = Client.width
-	self.ch = Client.height
-
+	Client.FireEvent("make:Up")
     self.BlackPanel.AddChild(Panel(Rect(10, 88, Client.width-20, 2)) {color = Color(132, 132, 132, 255)})
-
-
 	self.BlackPanel.AddChild(Panel(Rect(135, 120, 2, Client.height-150)) {color = Color(132, 132, 132, 255)})
+
+
+
 
 
     -- self.blick = Panel(Rect(0, 0, 0, 0))
     -- self.BlackPanel.AddChild(self.blick)
 end
 
+function Making:MakingGetTopicUp(MenuName, MenuList)
+	---@diagnostic disable-next-line: undefined-global
+	self.MenuName = json.parse(MenuName)
+	---@diagnostic disable-next-line: undefined-global
+	self.MenuList = json.parse(MenuList)
+	self:BaseGui()
+end
 
-function Making:MakingGetTopicUp(MenuName, MenuList, ItemCount, UnitGold)
 
-    if data.blick ~= nil then
-        data.blick.Destroy() data = nil data = {}
-    end
+function Making:BaseGui() -- 바탕이 되는 gui들
+	self.ItemCount = {}
+	self.ItemCoeuntText = {}
+	self.NowItemCoeuntText  = {}
+
+	self.MainMenuScrollPanel = ScrollPanel(Rect(10, 50, Client.width-20, 40))
+	self.BlackPanel.AddChild(self.MainMenuScrollPanel)
+	self.MainMenuScrollPanel.setOpacity(0)
+	self.MainMenuScrollPanel.vertical = false
+
+	self.mainMenuSon = Panel(Rect(0, 0, 105*(#self.MenuName.main), 32))
+	self.MainMenuScrollPanel.AddChild(self.mainMenuSon)
+	self.mainMenuSon.setOpacity(0)
+	self.MainMenuScrollPanel.content = self.mainMenuSon
 
 
+	self.menwscroll_panel = ScrollPanel(Rect(10, 103, 115, 320)) --왼쪽 카테고리 스크롤패널
+	self.menwscroll_panel.setOpacity(0)
+	self.menwscroll_panel.horizontal = false
+
+	self.BlackPanel.AddChild(self.menwscroll_panel)
+
+    self.WHfektnPanel = Panel(Rect(0, 0, 90, 90))
+	self.WHfektnPanel.setOpacity(0)
+
+	self.menwscroll_panel.AddChild(self.WHfektnPanel)
+	self.menwscroll_panel.content = self.WHfektnPanel
+
+    self.CategoleyellowP = Panel(Rect(0, 0, 2, 37)) { -- 두번째 카테고리 옐로우 패널
+        color = Color(255, 189, 0)
+    }
+    self.WHfektnPanel.AddChild(self.CategoleyellowP)
     
-	data.ItemMakerMenu = nil
-	data.ItemMakerCount = nil
-	data.ItemMakerCountMin = nil
-	data.ItemMakerDataID = nil
-	data.ItemMakerVar = nil
+    self.scroll_panel = ScrollPanel(Rect(140, 103, self.BlackPanel.width*0.239375, 320))-- 두번째 카테고리 배경화면
+	self.scroll_panel.SetOpacity(0)
+	self.scroll_panel.horizontal = false
 
-	data.MenuName = json.parse(MenuName)
-	data.MenuList = json.parse(MenuList)
-	data.ItemCount = json.parse(ItemCount)
-	data.Gold = UnitGold
+    self.BlackPanel.AddChild(self.scroll_panel)
 
+    self.MidlePanel = Image('Pictures/Gui/메인 패널.png', Rect((self.scroll_panel.x+self.scroll_panel.width+self.BlackPanel.width-self.BlackPanel.width*0.2875-10)/2-(self.scroll_panel.width*1.1/2), 103, self.scroll_panel.width*1.22, 320)){ -- 중간패널
+        imageType = 1
+    }
+    self.BlackPanel.AddChild(self.MidlePanel)
 
-	data.cw = self.cw
-	data.ch = self.cw
-
-	data.Garo = 780 --650
-	data.Sero = 330
-
-	data.blick = Panel(Rect(0, 0, data.cw, data.ch))
-    data.blick.setOpacity(0)
-
-    self.BlackPanel.AddChild(data.blick)
-	-- data.blick.showOnTop = true
-
-	data.Make_Panel = Panel(Rect(10, 103,self.cw-20, data.Sero))-----------------------------------------------------
-	data.Make_Panel.setOpacity(0)
-	-- data.Make_Panel.color = Color(0, 0, 0, 255)
-	data.blick.AddChild(data.Make_Panel)
-
-	data.Make_Panel2 = Panel(Rect(0, 0, data.Make_Panel.width, data.Make_Panel.height))
-	data.Make_Panel2.setOpacity(0)
-	-- data.Make_Panel2.color = Color(66, 66, 66, 255)
-	data.Make_Panel.AddChild(data.Make_Panel2)
+    self.ItemPanel = Panel(Rect(self.MidlePanel.width/2-30, 10, 60, 60))
+    self.MidlePanel.AddChild(self.ItemPanel)
 
 
-	data.main_panel = Panel(Rect(100, 0, 643, 308)) -- 553
-	-- data.main_panel.color = Color(77, 77, 77, 100)
-	data.main_panel.setOpacity(0)
-	data.Make_Panel2.AddChild(data.main_panel)
+    self.ItemText = Text("", Rect(-64, 63, 190, 25))
+    self.ItemText.textAlign = 1
+    self.ItemText.textSize = 14
+    self.ItemPanel.AddChild(self.ItemText)
+    
 
-	data.sendPanel = Panel(Rect(0, 5, 0, 0)) -- 190 -----------------------------------------------------
-	data.sendPanel.setOpacity(0)
-	data.Make_Panel2.AddChild(data.sendPanel)
+    self.ItemImage = Image("", Rect(5, 5, 50, 50))
+    self.ItemPanel.AddChild(self.ItemImage)
 
-	local MakerButtonImg =  Image('Pictures/Gui/밝버튼.png', Rect(data.Make_Panel2.width-70, 330, 65, 25))
-	data.Make_Panel.AddChild(MakerButtonImg)
 
-	data.MakerButton = Button("제작", Rect(data.Make_Panel2.width-70, 330, 65, 25))
-	data.MakerButton.setOpacity(0)
+    self.sendPanelscroll_panel = ScrollPanel(Rect(5, 95, self.MidlePanel.width-10, 167))
+	self.sendPanelscroll_panel.setOpacity(0)
+	self.sendPanelscroll_panel.horizontal = false
+	self.MidlePanel.AddChild(self.sendPanelscroll_panel)
 
-	data.Make_Panel.AddChild(data.MakerButton)
+	self.ItemTextPanel = Panel(Rect(0, 0, self.MidlePanel.width-10, 500))
+	self.sendPanelscroll_panel.AddChild(self.ItemTextPanel)
+	self.sendPanelscroll_panel.content = self.ItemTextPanel
 
-    data.MakerButton.onClick.Add(function()
-		-- callback:ClickUpTest(makebutton)
-		if data.ItemMakerMenu ~= nil or data.ItemMakerCount ~= nil or data.ItemMakerCountMin ~= nil or 	data.ItemMakerDataID ~= nil then
-			Client.ShowYesNoAlert(Client.GetItem(data.ItemMakerDataID).name..' 아이템을'..data.ItemMakerVar..'개 제작 하시겠습니까?'..'\n제작 성공 확률:'..'<color=#74DF00>'..data.MenuList[data.MenuName.main[data.ItemMakerMenu]][data.MenuName.index[tostring(data.ItemMakerMenu)][data.ItemMakerCount]].chance[data.ItemMakerCountMin]..'%'..'</color>',function(result)
-				if result == 1 then
-					Client.FireEvent("make:MakeUp", data.ItemMakerMenu, data.ItemMakerCount, data.ItemMakerCountMin, data.ItemMakerDataID, data.ItemMakerVar)
-					data.blick.Destroy() data = nil data = {}
-					LoadingPanelUp()
-					Client.FireEvent("make:Up")
-				end
-			end)
-		end
+
+	self.ItemDescText = Text('종류:', Rect(5, 5, self.MidlePanel.width-10, 500))
+	self.ItemDescText.textSize = 13.5
+	self.ItemDescText.textAlign = 0
+
+	self.ItemTextPanel.AddChild(self.ItemDescText)
+
+
+	-- self.BlackPanel.AddChild(Image('Pictures/Gui/메인 패널 세로.png',Rect(self.BlackPanel.width-self.BlackPanel.width*0.2575-10, 103, self.BlackPanel.width*0.2575, 320)))
+
+	self.itemScrollPanel = ScrollPanel(Rect(self.BlackPanel.width-self.BlackPanel.width*0.2575-10, 103, self.BlackPanel.width*0.2575, 320)) -----아이템
+	self.itemScrollPanel.horizontal = false
+	self.itemScrollPanel.setOpacity(0)
+	self.BlackPanel.AddChild(self.itemScrollPanel)
+
+
+	self.itemScrollPaneladd = Panel(Rect(0, 0, self.itemScrollPanel.width, 0))-----아이템 자식패널
+	-- self.itemScrollPaneladd.setOpacity(0)
+	self.itemScrollPanel.AddChild(self.itemScrollPaneladd)
+	self.itemScrollPanel.content = self.itemScrollPaneladd
+
+
+	self.ItemCount[1] = Panel(Rect(5, 5, self.itemScrollPanel.width-10, 60))
+	self.ItemCount[1].setOpacity(255)
+	self.itemScrollPaneladd.AddChild(self.ItemCount[1])
+
+	self.ItemCount[1].AddChild(Image('Pictures/Gui/ChoicePanel.png',Rect(0, 0, self.ItemCount[1].width, 60)))
+
+	local img = Image("Icons/Item_0091.png", Rect(10, 12.5, 35, 35))
+	self.ItemCount[1].AddChild(img)
+
+	local ItemText = Text("골드",Rect(50, 10, 139, 30))
+	ItemText.textAlign = 0
+	ItemText.textSize = 12
+	self.ItemCount[1].AddChild(ItemText)
+
+
+	self.ItemCoeuntText[1] = Text('소지:' ,Rect(50, 25, 139, 30))
+	self.ItemCoeuntText[1].textAlign = 0
+	self.ItemCoeuntText[1].textSize = 11
+	self.ItemCount[1].AddChild(self.ItemCoeuntText[1])
+
+	self.NowItemCoeuntText[1] = Text('필요:', Rect(50, 40, 139, 30))
+	self.NowItemCoeuntText[1].textAlign = 0
+	self.NowItemCoeuntText[1].textSize = 11
+	self.ItemCount[1].AddChild(self.NowItemCoeuntText[1])
+		
+
+
+	self.ItemCount[2] = Panel(Rect(5, 67, self.itemScrollPanel.width-10, 60))
+	self.ItemCount[2].setOpacity(255)
+	self.itemScrollPaneladd.AddChild(self.ItemCount[2])
+
+	self.ItemCount[2].AddChild(Image('Pictures/Gui/ChoicePanel.png',Rect(0, 0, self.ItemCount[2].width, 60)))
+
+	local ItemText = Text("제작 성공 확률",Rect(50, 10, 139, 30))
+	ItemText.textAlign = 0
+	ItemText.textSize = 12
+	self.ItemCount[2].AddChild(ItemText)
+
+	local img = Image("Pictures/Gui/heder.png", Rect(7.5, 13, 35, 35))  -- 재작모영
+	self.ItemCount[2].AddChild(img)
+
+
+	self.ItemCoeuntTextPer = Text('성공 확률:', Rect(50, 25, 139, 30))
+	self.ItemCoeuntTextPer.textAlign = 0
+	self.ItemCoeuntTextPer.textSize = 11
+	self.ItemCount[2].AddChild(self.ItemCoeuntTextPer)
+
+
+	local MakerButtonImg =  Image('Pictures/Gui/밝버튼.png', Rect(self.BlackPanel.width-75, self.BlackPanel.height-40, 65, 25))
+	self.BlackPanel.AddChild(MakerButtonImg)
+
+	self.MakerButton = Button("제작", Rect(MakerButtonImg.x, MakerButtonImg.y, 65, 25))
+	self.MakerButton.setOpacity(0)
+
+	self.BlackPanel.AddChild(self.MakerButton)
+
+	self.MakerButton.onClick.Add(function ()
+		self.MakerButtonOnF()
 	end)
 
-	data.inP = Panel(Rect(data.main_panel.width-213, 5, 210, 268)) --253 -- 258
-	-- data.inP.AddChild(Image('Pictures/내부1.png', Rect(0, 0, 210, 268)))
-	data.inP.SetOpacity(0)
-	data.main_panel.AddChild(data.inP)
-	
-	-- local itempaneling = Image('Pictures/내부1.png', Rect(5, 5, 205, 298))
-	-- data.main_panel.AddChild(itempaneling)
-	
 
-	data.scroll_panel = ScrollPanel(Rect(31, 0, data.Make_Panel2.width*0.440625-141, 320))-- 190
-	data.scroll_panel.SetOpacity(0)
-	data.scroll_panel.horizontal = false
+	self.CountPanel = Panel(Rect(self.MakerButton.x-110,  MakerButtonImg.y, 100, 25))
+	self.BlackPanel.AddChild(self.CountPanel)
 
-	
+	self.CountPanel.setOpacity(120)
 
-    data.main_panel.AddChild(data.scroll_panel)
+	self.CountPanelText = Text("", Rect(10, 5, 80, 25))
+	self.CountPanel.AddChild(self.CountPanelText)
+	self.CountPanelText.textSize = 12
+	self.CountPanelText.textAlign = 1
 
-	
-    -- data.inL = Panel(Rect(0, 0, 205, data.inP.height+30)) -- 285 -- 190
-	-- data.scroll_panel.content = data.inL
+	local PlusButtonX10Img =  Image('Pictures/Gui/밝버튼.png',Rect(self.MakerButton.x-185, MakerButtonImg.y, 65, 25))
+	self.BlackPanel.AddChild(PlusButtonX10Img)
+
+	self.PlusButtonX10 = Button('+10', Rect(self.MakerButton.x-185, MakerButtonImg.y, 65, 25))
+	self.BlackPanel.AddChild(self.PlusButtonX10)
+	self.PlusButtonX10.setOpacity(0)
+	self.PlusButtonX10.textSize = 12
 
 
-	data.Choice_Panel = Panel(Rect(5, 0, 90, 308))
-	data.Choice_Panel.setOpacity(0)
-	-- data.Choice_Panel.color = Color(77, 77, 77, 255)
-	
-	data.Make_Panel2.AddChild(data.Choice_Panel)
+	self.PlusButtonX10.onClick.Add(function()
+		self.PlusButtonX10Onf()
+	end)
 
-    data.menwscroll_panel = ScrollPanel(Rect(0, 0, 115, 320)) --왼쪽 카테고리 스크롤패널
-	data.menwscroll_panel.setOpacity(0)
-	data.menwscroll_panel.horizontal = false
+	self.PlusButtonX100 = Button('+100', Rect(self.MakerButton.x-260, MakerButtonImg.y, 65, 25))
+	local PlusButtonX100 =  Image('Pictures/Gui/밝버튼.png',Rect(self.MakerButton.x-260, MakerButtonImg.y, 65, 25))
+	self.BlackPanel.AddChild(PlusButtonX100)
+	self.PlusButtonX100.setOpacity(0)
+	self.PlusButtonX100.textSize = 12
+	self.BlackPanel.AddChild(self.PlusButtonX100)
 
-	data.Choice_Panel.AddChild(data.menwscroll_panel)
+	self.PlusButtonX100.onClick.Add(function()
+		self.PlusButtonX100Onf()
+	end)
 
+	self.ResetButton = Button('Reset', Rect(self.MakerButton.x-335, MakerButtonImg.y, 65, 25))
+	local ResetButton =  Image('Pictures/Gui/밝버튼.png', Rect(self.MakerButton.x-335, MakerButtonImg.y, 65, 25))
+	self.BlackPanel.AddChild(ResetButton)
+	self.ResetButton.setOpacity(0)
+	self.ResetButton.textSize = 12
+	self.BlackPanel.AddChild(self.ResetButton)
 
+	self.ResetButton.onClick.Add(function()
+		self.ResetButtonOnf()
+	end)
 
-	-- data.WHfektnPanel = Panel(Rect(0, 0, 90, 100 ))
-	-- data.WHfektnPanel.setOpacity(0)
+	self.PlusButton = Button('+', Rect(self.CountPanel.x+75, MakerButtonImg.y, 25, 25))
+	self.PlusButton.setOpacity(20)
+	self.BlackPanel.AddChild(self.PlusButton)
 
-	-- data.menwscroll_panel.AddChild(data.WHfektnPanel)
-	-- data.menwscroll_panel.content = data.WHfektnPanel
-
-	data.itemScrollPanel = ScrollPanel(Rect(0, 0, 190, 268)) -----아이템 패널 
-	data.itemScrollPanel.horizontal = false
-	data.itemScrollPanel.setOpacity(0)
-	data.inP.AddChild(data.itemScrollPanel)
-
-    
-	data.itemScrollPaneladd = Panel(Rect(0, 0, 190, 268))-----아이템
-	data.itemScrollPaneladd.setOpacity(0)
-
-	data.itemScrollPanel.AddChild(data.itemScrollPaneladd)
-
-	data.itemScrollPanel.content = data.itemScrollPaneladd
-
-
-
-    
-	data.mainMenuScrollPanel = ScrollPanel(Rect(10, 50, Client.width-20, 40))
-	data.blick.AddChild(data.mainMenuScrollPanel)
+	self.PlusButton.onClick.Add(function()
+		self.PlusButtonOnf()
+	end)
 
 
-	data.mainMenuScrollPanel.setOpacity(0)
-	data.mainMenuScrollPanel.vertical = false
+	self.DownButton = Button('-', Rect(self.CountPanel.x, MakerButtonImg.y, 25, 25))
+	self.DownButton.setOpacity(20)
+	self.BlackPanel.AddChild(self.DownButton)
 
-	data.mainMenuSon = Panel(Rect(0, 0, 105*(#data.MenuName.main), 32))
-	data.mainMenuSon.setOpacity(0)
-
-	data.mainMenuScrollPanel.AddChild(data.mainMenuSon)
-
-	data.mainMenuScrollPanel.content = data.mainMenuSon
-	data.happy_panel = {} data.Choice_but = {} data.happy_butSetimG = {} data.PanelColor = {}
-
-	-- data.bagic2 = Color(111, 111, 111, 255)
-
-    self.TopYellowPanel = Panel(Rect(110*(d-1), 38, 110, 2)) {
-        color = Color(255, 189, 0)
-        
-     }
-     data.mainMenuSon.AddChild(self.TopYellowPanel)
+	self.DownButton.onClick.Add(function()
+		self.DownButtonOnf()
+	end)
 
 
-     
+	self:TopCategole()
+end
 
 
-    for key, i in pairs(data.MenuName.main) do
+function Making:TopCategole() -- 맨위 상단 카테고리
 
+	-- data.happy_panel = {} data.Choice_but = {} data.happy_butSetimG = {} data.PanelColor = {}
+
+	self.TopYellowPanel = Panel(Rect(0, 38, 110, 2)) {
+		color = Color(255, 189, 0)
+		
+	 }
+	 self.mainMenuSon.AddChild(self.TopYellowPanel)
+	 for key, i in pairs(self.MenuName.main) do
         local TopCategole = Button('', Rect(110*(key-1), 0, 110, 38)) {
             textSize = 16,
             autoTranslate = true,
             text = i,
         }
-        data.mainMenuSon.AddChild(TopCategole)
+		
+        self.mainMenuSon.AddChild(TopCategole)
         TopCategole.setOpacity(0)
 
         TopCategole.onClick.Add(function()
             self.TopYellowPanel.rect = Rect(TopCategole.x, 38, 110, 2)
-			c = key
-			d = key
-			a = 1
-			b = 1
-            self.TdTopLeftCategoleButtonTrgar = 1
-			-- text3(data, i, UnitGold)
             self:LeftInforMation(key)
-			return
 		end)
-
-
     end
-
-
-	-- text3(data, d, UnitGold)
-	-- LoadingPanelDestroy()
-
-
-    self:LeftInforMation(d)
-	LoadingPanelDestroy()
+	self:LeftInforMation(1)
 
 end
 
 
-function Making:LeftInforMation(i)
 
-    
-
-	-- data.WHfektnPanel.rect = Rect(0, 0, 90, 5+37*(#data.MenuName.index[tostring(i)]))
-
-	data.ItemMakerMenu = nil
-	data.ItemMakerCount = nil
-
-
-    if data.WHfektnPanel ~= nil then
-        data.WHfektnPanel.Destroy() data.WHfektnPanel = nil
-
+function Making:LeftInforMation(i) --왼쪽 하위 카테고리
+    if self.WHfektnPanel ~= nil then
+        self.WHfektnPanel.Destroy()
+        self.WHfektnPanel = nil
     end
 
+    self.WHfektnPanel = Panel(Rect(0, 0, 90, 5+37*(#self.MenuName.index[tostring(i)])))
+	self.WHfektnPanel.setOpacity(0)
 
-    data.WHfektnPanel = Panel(Rect(0, 0, 90, 5+37*(#data.MenuName.index[tostring(i)])))
-	data.WHfektnPanel.setOpacity(0)
+	self.menwscroll_panel.AddChild(self.WHfektnPanel)
+	self.menwscroll_panel.content = self.WHfektnPanel
 
-	data.menwscroll_panel.AddChild(data.WHfektnPanel)
-	data.menwscroll_panel.content = data.WHfektnPanel
-
-
-
-    local CategoleyellowP = Panel(Rect(0, 0, 2, 37)) {
+    self.CategoleyellowP = Panel(Rect(0, 0, 2, 37)) { -- 두번째 카테고리 옐로우 패널
         color = Color(255, 189, 0)
     }
+    self.WHfektnPanel.AddChild(self.CategoleyellowP)
 
-    data.WHfektnPanel.AddChild(CategoleyellowP)
+	local temp = nil
 
-	if asd then asd.Destroy() asd = nil  end
-
-    for n, value in pairs(data.MenuName.index[tostring(i)]) do
-
-        data.Choice_but[n] =  Button(data.MenuName.index[tostring(i)][n], Rect(0, 37*(n-1), 109, 37)) {
+    for n, value in pairs(self.MenuName.index[tostring(i)]) do
+        local Choice_but =  Button(self.MenuName.index[tostring(i)][n], Rect(0, 37*(n-1), 109, 37)) {
             textSize = 15.5,
             autoTranslate = true,
             text = value,
         }
-        data.Choice_but[n].setOpacity(0)
-        data.WHfektnPanel.AddChild(data.Choice_but[n])
 
-        data.Choice_but[n].onClick.Add(function()
-			a = n
-			c = i
-			b = 1
+        if n == 1 then
+            self.CategoleyellowP.rect = Rect(0, Choice_but.y, 2, 37)
+            Choice_but.DOColor(Color(128, 128, 128, 255), 0.3)
+            Choice_but.DOMove(Point(6, Choice_but.y), 0.3)
+            temp = Choice_but
+        end
 
-            CategoleyellowP.rect = Rect(0, data.Choice_but[n].y, 2, 37)
-            data.Choice_but[self.TdTopLeftCategoleButtonTrgar].setOpacity(0)
-            data.Choice_but[self.TdTopLeftCategoleButtonTrgar].DOMove(Point(0, data.Choice_but[self.TdTopLeftCategoleButtonTrgar].y), 0.3)
-            data.Choice_but[n].DOColor(Color(128, 128, 128, 255), 0.3)
-            data.Choice_but[n].DOMove(Point(6, data.Choice_but[n].y), 0.3)
-            self.TdTopLeftCategoleButtonTrgar = n
+        Choice_but.setOpacity(0)
+        self.WHfektnPanel.AddChild(Choice_but)
 
+        Choice_but.onClick.Add(function()
+			if Choice_but ~= temp then
+				if temp ~= nil then
+					temp.setOpacity(0)
+					temp.DOMove(Point(0, temp.y), 0.3)
+				end
+				temp = Choice_but
+			else
+				return
+			end
+			
+            self.CategoleyellowP.rect = Rect(0, Choice_but.y, 2, 37)
 
-
+            Choice_but.DOColor(Color(128, 128, 128, 255), 0.3)
+            Choice_but.DOMove(Point(6, Choice_but.y), 0.3)
 			self:ItemListF(n, i)
 			return
 		end)
-
     end
+    self:ItemListF(1, i)
+	
+end
 
-    CategoleyellowP.rect = Rect(0, 37*(self.TdTopLeftCategoleButtonTrgar-1), 2, 37)
-
-    data.Choice_but[self.TdTopLeftCategoleButtonTrgar].color = Color(128, 128, 128, 255)
-    data.Choice_but[self.TdTopLeftCategoleButtonTrgar].x = 6
-
+function Making:ItemListF(n , i)
+	
+    if self.inL ~= nil then
+        self.inL.Destroy()
+        self.inL = nil
+    end
     
-	self:ItemListF(a, c)
-end
+    self.inL = Panel(Rect(0, 0, self.scroll_panel.width, 45*#self.MenuList[self.MenuName.main[i]][self.MenuName.index[tostring(i)][n]].dataID)) -- 285 -- 190
+    -- self.inL.setOpacity(0)
+    self.scroll_panel.content = self.inL
 
 
-
-function CountCheck(text)
-	if text <= 0 then
-		return false
-	end
-end
+    local temp = nil
 
 
-function Making:ItemListF(bb, i)
-	if not data.MenuName.index[tostring(i)][bb] then
-		a = 1
-		b = 1
-		bb = 1
-	end
-
-	data.ItemMakerMenu = nil
-	data.ItemMakerCount = nil
-	data.ItemMakerCountMin = nil
-	data.ItemMakerDataID = nil
-	if asd then asd.Destroy() asd = nil end
-
-
-	-- for k, n in pairs(data.happy_but) do
-	-- 	data.happy_butSetimG[k].Destroy()
-	-- 	n.Destroy()
-	-- end
-
-    if data.inL ~= nil then
-        data.inL.Destroy()
-        data.inL = nil
-    end
-
-    data.inL = Panel(Rect(0, 0, data.scroll_panel.width, 45*#data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].dataID)) -- 285 -- 190
-	data.inL.setOpacity(0)
-	data.scroll_panel.content = data.inL
-
-
-	-- data.inL.rect = Rect(0, 0, 205, 45*#data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].dataID)
-
-	for j, n in pairs(data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].dataID) do
-		data.PanelColor[j] = Button('', Rect(0, 5+45*(j-1), data.inL.width, 40)) {
+    for j, k in pairs(self.MenuList[self.MenuName.main[i]][self.MenuName.index[tostring(i)][n]].dataID) do
+		local CPanel = Button('', Rect(0, 5+45*(j-1), self.inL.width, 40)) {
 			color = Color(76, 78, 85, 255)
 		}
 
+        if j == 1 then
+            CPanel.color = Color(255, 189, 0)
+            temp = CPanel
+        end
 
-		local inpanel = Panel(Rect(2.5, 2.5, data.inL.width-5, 35)) {
+		local inpanel = Panel(Rect(2.5, 2.5, self.inL.width-5, 35)) {
 			color = Color(29, 30, 31, 255)
 		}
-		data.PanelColor[j].AddChild(inpanel)
-
+		CPanel.AddChild(inpanel)
 		
-		data.inL.AddChild(data.PanelColor[j])
+		self.inL.AddChild(CPanel)
 
-		local icon_panel = Panel(Rect(3, 3, data.PanelColor[j].height-6, data.PanelColor[j].height-6))
+        local icon_panel = Panel(Rect(3, 3, CPanel.height-6, CPanel.height-6))
 		icon_panel.setOpacity(100) --- 0
-		data.PanelColor[j].AddChild(icon_panel)
+		CPanel.AddChild(icon_panel)
 
-		local happy_image = Image('', Rect(0, 0, icon_panel.width, icon_panel.height))
-		happy_image.SetImageID(Client.GetItem(n).imageID)
+
+        local happy_image = Image('', Rect(0, 0, icon_panel.width, icon_panel.height))
+		happy_image.SetImageID(Client.GetItem(k).imageID)
 		icon_panel.AddChild(happy_image)
 
-		local happy_text = Text(Client.GetItem(n).name, Rect(icon_panel.width+7, 0, data.PanelColor[j].width-icon_panel.width-10, data.PanelColor[j].height))
-		happy_text.textSize = 14
-		happy_text.textAlign = 3
-		data.PanelColor[j].AddChild(happy_text)
+        local happy_text = Text(Client.GetItem(k).name, Rect(icon_panel.width+7, 0, CPanel.width-icon_panel.width-10, CPanel.height)){
+            textSize = 14,
+            textAlign = 3
+        }
 
-		data.PanelColor[j].onClick.Add(function()
-			data.PanelColor[b].color = Color(29, 30, 31, 255)
-			data.PanelColor[j].color = Color(255, 189, 0)
+		CPanel.AddChild(happy_text)
+
+        CPanel.onClick.Add(function()
+
+            if CPanel ~= temp then
+				if temp ~= nil then
+					temp.setOpacity(0)
+					temp.DOMove(Point(0, temp.y), 0.3)
+				end
+				temp = CPanel
+			else
+				return
+			end
+			
+
+			temp.color = Color(29, 30, 31, 255)
+			CPanel.color = Color(255, 189, 0)
 			-- callback:ClickUpTest(data.happy_butSetimG[j])
 			--j = 1
-			self:ItemMakingFinel(i, j, n, bb)
-			b = j
+			self:ItemMakingFinel(i, j, k, n)
+			-- b = j
 		end)
-		if j == b then
-			self:ItemMakingFinel(i, b, n, bb)
-		end
 	end
-
-	data.PanelColor[b].color = Color(255, 189, 0)
+	self:ItemMakingFinel(i, 1, self.MenuList[self.MenuName.main[i]][self.MenuName.index[tostring(i)][n]].dataID[1], n) ----------------------------여기수정했음
 end
-
-
 
 
 function Making:ItemMakingFinel(i, j, n, bb)
+	self.nowdata = {i, j, n, bb}
+	self.ItemMakerVar = 1
+	self.myitem = Client.myPlayerUnit.GetItemCount
+	for k = 3, 2+#self.ItemCount do
+		if self.ItemCount[k] ~= nil then
+			self.ItemCount[k].Destroy() 
+			self.ItemCount[k] = nil
+		end
+		if self.NowItemCoeuntText[k-1] ~= nil then
+			self.NowItemCoeuntText[k-1].Destroy()
+			self.NowItemCoeuntText[k-1] = nil
+		end
+	end
 
-	--data.happy_but[j].setOpacity(0)
+    self.ItemImage.SetImageID(Client.GetItem(n).imageID)
 
-	--print(i, j, n)
-	local ItemCountVar = 1
+    self.ItemText.text = Client.GetItem(n).name
 
-	data.ItemMakerMenu = i
-	data.ItemMakerCount = bb
-	data.ItemMakerCountMin = j
-	data.ItemMakerDataID = n
-	data.ItemMakerVar = ItemCountVar
-
-	local data2 = {}
-	data2.ItemCount = {}
-	data2.NowItemCoeuntText = {}
-	data2.ItemCoeuntText = {}
-
-	if asd then asd.Destroy() asd = nil  end
-	asd = Panel(Rect(0, 0, 0, 0))
-	-- asd.setOpacity(0)
-
-	local aaasd = Panel(Rect(data.Make_Panel2.width*0.440625, 0, data.Make_Panel2.width*0.2625, 268))
-	aaasd.setOpacity(255)
-	asd.AddChild(aaasd)
-	aaasd.AddChild(Image('Pictures/Gui/메인 패널.png', Rect(0, 0, aaasd.width, aaasd.height)))
-	data.sendPanel.AddChild(asd)
-
-	data2.ItemPanel = Panel(Rect(75, 10, 60, 60))
-
-	-- 428125
-	-- data2.ItemPanel.AddChild(Image('Pictures/아이템.png', Rect(0, 0, 60, 60)))
-
-	aaasd.AddChild(data2.ItemPanel)
-
-	data2.ItemImage = Image("", Rect(5, 5, 50, 50))
-	data2.ItemImage.SetImageID(Client.GetItem(n).imageID)
-	data2.ItemPanel.AddChild(data2.ItemImage)
-
-	data2.ItemText = Text(Client.GetItem(n).name,Rect(-64, 63, 190, 25))
-	data2.ItemText.textAlign = 1
-	data2.ItemText.textSize = 14
-	data2.ItemPanel.AddChild(data2.ItemText)
-
-	----------아이템 정보창
-
-	-- local a = Image('Pictures/내부1.png', Rect(5, 95, 200, 167))
-	-- asd.AddChild(a)
-
-	data2.sendPanelscroll_panel = ScrollPanel(Rect(5, 95, 200, 167))
-	data2.sendPanelscroll_panel.setOpacity(0)
-	data2.sendPanelscroll_panel.horizontal = false
-	aaasd.AddChild(data2.sendPanelscroll_panel)
-
-	data2.ItemTextPanel = Panel(Rect(0, 0, 204, 500))
-	data2.sendPanelscroll_panel.AddChild(data2.ItemTextPanel)
-	data2.sendPanelscroll_panel.content = data2.ItemTextPanel
+    self.ItemDescText.text = "종류:"..CallBack.ItemType[Client.GetItem(n).type+1].."\n"..(Client.GetItem(n).canTrade == false and "<color=#FF0000>거래 불가능</color>\n" or "<color=#FF0000>거래 가능</color>\n")..Client.GetItem(n).desc
 
 
-	data2.ItemDescText = Text('종류:'..ItemType[Client.GetItem(n).type+1].."\n"..(Client.GetItem(n).canTrade == false and "<color=#FF0000>거래 불가능</color>\n" or "<color=#FF0000>거래 가능</color>\n")..Client.GetItem(n).desc, Rect(5, 5, 204, 500))
-	data2.ItemDescText.textSize = 13.5
-	data2.ItemDescText.textAlign = 0
-
-	data2.ItemTextPanel.AddChild(data2.ItemDescText)
-		
-	----------아이템 정보창
-
-	data2.itemScrollPanel = ScrollPanel(Rect(data.Make_Panel2.width*0.7125, 0, data.Make_Panel2.width*0.2875, 320)) -----아이템
-	data2.itemScrollPanel.horizontal = false
-	data2.itemScrollPanel.setOpacity(0)
-	asd.AddChild(data2.itemScrollPanel)
-
-	-- print(data2.itemScrollPanel.x, data2.itemScrollPanel.width)
-
-	-- print(data2.itemScrollPanel.x)
+	self.itemScrollPaneladd.rect = Rect(0, 0, 210, 5+(2+#self.MenuList[self.MenuName.main[i]][self.MenuName.index[tostring(i)][bb]].itemdataID[tostring(j)])*62)
 
 
-	-- local a = Image('Pictures/아이템1.png', Rect(215, 0, 300, 268))
+	local NowItemCount = CallBack.GameGold >= self.MenuList[self.MenuName.main[i]][self.MenuName.index[tostring(i)][bb]].gold[j] and CallBack:C_commaValue(CallBack.GameGold) or "<color=#FF0000>"..CallBack:C_commaValue(CallBack.GameGold).."</color>"
+	self.ItemCoeuntText[1].text = '소지:'..NowItemCount
 
-	-- data.itemScrollPanel.AddChild(a)
-	
+	self.NowItemCoeuntText[1].text = '필요:'..CallBack:C_commaValue(self.MenuList[self.MenuName.main[i]][self.MenuName.index[tostring(i)][bb]].gold[j])
 
-	--print(json.serialize(data.MenuList[data.MenuName[i]]))
-
-	--print(json.serialize(data.MenuList[data.MenuName.index[tostring(i)]]))
-
-	
---print(json.serialize(data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][b]].itemdataID))
-	--print(json.serialize(data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][j]]))
-	-- print(json.serialize(data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][j]].itemdataID[tostring(j)]))
-	
-
-	data2.itemScrollPaneladd = Panel(Rect(0, 0, 210, 5+(2+#data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].itemdataID[tostring(j)])*62))-----아이템
-	data2.itemScrollPaneladd.setOpacity(0)
-	data2.itemScrollPanel.AddChild(data2.itemScrollPaneladd)
-	data2.itemScrollPanel.content = data2.itemScrollPaneladd
-
-	data2.ItemCount[1] = Panel(Rect(5, 5, data2.itemScrollPanel.width-10, 60))
-	data2.ItemCount[1].setOpacity(255)
-	data2.itemScrollPaneladd.AddChild(data2.ItemCount[1])
-
-	data2.ItemCount[1].AddChild(Image('Pictures/Gui/ChoicePanel.png',Rect(0, 0, data2.ItemCount[1].width, 60)))
-	
-	local img = Image("Icons/Item_0091.png", Rect(10, 12.5, 35, 35))
-	data2.ItemCount[1].AddChild(img)
-
-	local ItemText = Text("골드",Rect(50, 10, 139, 30))
-	ItemText.textAlign = 0
-	ItemText.textSize = 12
-	data2.ItemCount[1].AddChild(ItemText)
-
-	local NowItemCount = data.Gold >= data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].gold[j] and CallBack:C_commaValue(data.Gold) or "<color=#FF0000>"..C_commaValue(data.Gold).."</color>"
-
-	data2.ItemCoeuntText[1] = Text('소지:'..NowItemCount ,Rect(50, 25, 139, 30))
-	data2.ItemCoeuntText[1].textAlign = 0
-	data2.ItemCoeuntText[1].textSize = 11
-	data2.ItemCount[1].AddChild(data2.ItemCoeuntText[1])
+	self.ItemCoeuntTextPer.text = ('성공 확률:'..'<color=#74DF00>'..self.MenuList[self.MenuName.main[i]][self.MenuName.index[tostring(i)][bb]].chance[j]..'%'..'</color>')
 
 
-	data2.NowItemCoeuntText[1] = Text('필요:'..CallBack:C_commaValue(data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].gold[j]), Rect(50, 40, 139, 30))
-	data2.NowItemCoeuntText[1].textAlign = 0
-	data2.NowItemCoeuntText[1].textSize = 11
-	data2.ItemCount[1].AddChild(data2.NowItemCoeuntText[1])
+	for k = 3, 2+#self.MenuList[self.MenuName.main[i]][self.MenuName.index[tostring(i)][bb]].itemdataID[tostring(j)] do
 
-	data2.ItemCount[2] = Panel(Rect(5, 67, data2.itemScrollPanel.width-10, 60))
-	data2.ItemCount[2].setOpacity(255)
-	data2.itemScrollPaneladd.AddChild(data2.ItemCount[2])
-
-	data2.ItemCount[2].AddChild(Image('Pictures/Gui/ChoicePanel.png',Rect(0, 0, data2.ItemCount[2].width, 60)))
-
-	local ItemText = Text("제작 성공 확률",Rect(50, 10, 139, 30))
-	ItemText.textAlign = 0
-	ItemText.textSize = 12
-	data2.ItemCount[2].AddChild(ItemText)
-
-	local img = Image("Pictures/Gui/heder.png", Rect(7.5, 13, 35, 35))  -- 재작모영
-	--img.textSize = 30
-	data2.ItemCount[2].AddChild(img)
-
-
-	local ItemCoeuntText = Text('성공 확률:'..'<color=#74DF00>'..data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].chance[j]..'%'..'</color>', Rect(50, 25, 139, 30))
-	ItemCoeuntText.textAlign = 0
-	ItemCoeuntText.textSize = 11
-	data2.ItemCount[2].AddChild(ItemCoeuntText)
-	
-
-	for k = 3, 2+#data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].itemdataID[tostring(j)] do
-
-		data2.ItemCount[k] = Button('', Rect(5, 5+((k-1)*60)+((k-1)*2), data2.itemScrollPanel.width-10, 60))
-		data2.ItemCount[k].SetOpacity(0)
-		data2.ItemCount[k].onClick.Add(function()
-			ItemDocePanelUp(data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].itemdataID[tostring(j)][k-2], CallBack:C_commaValue(data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].itemcount[tostring(j)][k-2]))
+		self.ItemCount[k] = Button('', Rect(5, 5+((k-1)*60)+((k-1)*2), self.itemScrollPanel.width-10, 60))
+		self.ItemCount[k].SetOpacity(0)
+		self.ItemCount[k].onClick.Add(function()
+			-- ItemDocePanelUp(data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].itemdataID[tostring(j)][k-2], CallBack:C_commaValue(data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].itemcount[tostring(j)][k-2]))
 		end)
-		data2.ItemCount[k].AddChild(Image('Pictures/Gui/ChoicePanel.png',Rect(0, 0, data2.ItemCount[k].width, 60)))
-		data2.itemScrollPaneladd.AddChild(data2.ItemCount[k])
+		self.ItemCount[k].AddChild(Image('Pictures/Gui/ChoicePanel.png',Rect(0, 0, self.ItemCount[k].width, 60)))
+		self.itemScrollPaneladd.AddChild(self.ItemCount[k])
 
 		local img = Image("", Rect(10, 12.5, 35, 35))
-		img.SetImageID(Client.GetItem(data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].itemdataID[tostring(j)][k-2]).imageID)
-		data2.ItemCount[k].AddChild(img)
+		img.SetImageID(Client.GetItem(self.MenuList[self.MenuName.main[i]][self.MenuName.index[tostring(i)][bb]].itemdataID[tostring(j)][k-2]).imageID)
+		self.ItemCount[k].AddChild(img)
 
-		local ItemText = Text(Client.GetItem(data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].itemdataID[tostring(j)][k-2]).name,Rect(50, 10, 159, 30))
+		local ItemText = Text(Client.GetItem(self.MenuList[self.MenuName.main[i]][self.MenuName.index[tostring(i)][bb]].itemdataID[tostring(j)][k-2]).name, Rect(50, 10, 159, 30))
 		ItemText.textAlign = 0
 		ItemText.textSize = 12
-		data2.ItemCount[k].AddChild(ItemText)
+		self.ItemCount[k].AddChild(ItemText)
+		
+		local NowItemCount = self.myitem(self.MenuList[self.MenuName.main[i]][self.MenuName.index[tostring(i)][bb]].itemdataID[tostring(j)][k-2]) >= self.MenuList[self.MenuName.main[i]][self.MenuName.index[tostring(i)][bb]].itemcount[tostring(j)][k-2] and CallBack:C_commaValue(self.myitem(self.MenuList[self.MenuName.main[i]][self.MenuName.index[tostring(i)][bb]].itemdataID[tostring(j)][k-2])) or "<color=#FF0000>"..CallBack:C_commaValue(self.myitem(self.MenuList[self.MenuName.main[i]][self.MenuName.index[tostring(i)][bb]].itemdataID[tostring(j)][k-2])).."</color>"
 
-		local NowItemCount = data.ItemCount[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].data[tostring(j)][k-2] >= data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].itemcount[tostring(j)][k-2] and CallBack:C_commaValue(data.ItemCount[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].data[tostring(j)][k-2]) or "<color=#FF0000>"..CallBack:C_commaValue(data.ItemCount[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].data[tostring(j)][k-2]).."</color>"
+		self.ItemCoeuntText[k-1] = Text('소지:'..NowItemCount ,Rect(50, 25, 139, 30))
+		self.ItemCoeuntText[k-1].textAlign = 0
+		self.ItemCoeuntText[k-1].textSize = 11
+		self.ItemCount[k].AddChild(self.ItemCoeuntText[k-1])
 
-		data2.ItemCoeuntText[k-1] = Text('소지:'..NowItemCount ,Rect(50, 25, 139, 30))
-		data2.ItemCoeuntText[k-1].textAlign = 0
-		data2.ItemCoeuntText[k-1].textSize = 11
-		data2.ItemCount[k].AddChild(data2.ItemCoeuntText[k-1])
-
-		data2.NowItemCoeuntText[k-1] = Text('필요:'..CallBack:C_commaValue(data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].itemcount[tostring(j)][k-2]), Rect(50, 40, 139, 30))
-		data2.NowItemCoeuntText[k-1].textAlign = 0
-		data2.NowItemCoeuntText[k-1].textSize = 11
-		data2.ItemCount[k].AddChild(data2.NowItemCoeuntText[k-1])
+		self.NowItemCoeuntText[k-1] = Text('필요:'..CallBack:C_commaValue(self.MenuList[self.MenuName.main[i]][self.MenuName.index[tostring(i)][bb]].itemcount[tostring(j)][k-2]), Rect(50, 40, 139, 30))
+		self.NowItemCoeuntText[k-1].textAlign = 0
+		self.NowItemCoeuntText[k-1].textSize = 11
+		self.ItemCount[k].AddChild(self.NowItemCoeuntText[k-1])
 	end
-	data2.CountPanel = Panel(Rect(data.MakerButton.x-110, 325, 100, 25))
-	data2.CountPanel.setOpacity(120)
-	asd.AddChild(data2.CountPanel)
 
-	data2.CountPanelText = Text(ItemCountVar, Rect(10, 5, 80, 25))
-	data2.CountPanelText.textSize = 12
-	data2.CountPanelText.textAlign = 1
+	self.MakerButtonOnF = function()
+		Client.ShowYesNoAlert(Client.GetItem(n).name..' 아이템을'..self.ItemMakerVar..'개 제작 하시겠습니까?'..'\n제작 성공 확률:'..'<color=#74DF00>'..self.MenuList[self.MenuName.main[i]][self.MenuName.index[tostring(i)][bb]].chance[j]..'%'..'</color>',function(result)
+			if result == 1 then
+				Client.FireEvent("make:MakeUp",i, bb, j, self.ItemMakerVar, n)
+				-- LoadingPanelUp()
+				-- Client.FireEvent("make:Up")
+			end
+		end)
+	end
 
-	data2.CountPanel.AddChild(data2.CountPanelText)
+	self.CountPanelText.text = self.ItemMakerVar
 
-	data2.PlusButtonX10 = Button('+10', Rect(data.MakerButton.x-185, 325, 65, 25))
-	local PlusButtonX10Img =  Image('Pictures/Gui/밝버튼.png',Rect(data.MakerButton.x-185, 325, 65, 25))
-	asd.AddChild(PlusButtonX10Img)
-	data2.PlusButtonX10.setOpacity(0)
-	data2.PlusButtonX10.textSize = 12
-	asd.AddChild(data2.PlusButtonX10)
 
-	data2.PlusButtonX10.onClick.Add(function()
-		-- callback:ClickUpTest(PlusButtonX10Img)
-		if ItemCountVar >= 990 then
+	self.PlusButtonX10Onf = function()
+		if self.ItemMakerVar >= 990 then
 			return false
 		end
-		ItemCountVar = ItemCountVar + 10
-		data2.CountPanelText.text = ItemCountVar
-		data.ItemMakerVar = ItemCountVar
-		self:CountUpData(data2.NowItemCoeuntText, data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].gold[j], data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].itemcount[tostring(j)], ItemCountVar, data.Gold, data2.ItemCoeuntText, data.ItemCount[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].data[tostring(j)])
-	end)
-
-	data2.PlusButtonX100 = Button('+100', Rect(data.MakerButton.x-260, 325, 65, 25))
-	local PlusButtonX100 =  Image('Pictures/Gui/밝버튼.png',Rect(data.MakerButton.x-260, 325, 65, 25))
-	asd.AddChild(PlusButtonX100)
-	data2.PlusButtonX100.setOpacity(0)
-	data2.PlusButtonX100.textSize = 12
-	asd.AddChild(data2.PlusButtonX100)
-
-	data2.PlusButtonX100.onClick.Add(function()
-		-- callback:ClickUpTest(PlusButtonX100)
-		if ItemCountVar >= 900 then
-			return false
-		end
-		ItemCountVar = ItemCountVar + 100
-		data2.CountPanelText.text = ItemCountVar
-		data.ItemMakerVar = ItemCountVar
-		self:CountUpData(data2.NowItemCoeuntText, data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].gold[j], data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].itemcount[tostring(j)], ItemCountVar, data.Gold, data2.ItemCoeuntText, data.ItemCount[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].data[tostring(j)])
-	end)
-
-	data2.ResetButton = Button('Reset', Rect(data.MakerButton.x-335, 325, 65, 25))
-	local ResetButton =  Image('Pictures/Gui/밝버튼.png', Rect(data.MakerButton.x-335, 325, 65, 25))
-	asd.AddChild(ResetButton)
-	data2.ResetButton.setOpacity(0)
-	data2.ResetButton.textSize = 12
-	asd.AddChild(data2.ResetButton)
-
-	data2.ResetButton.onClick.Add(function()
-		-- callback:ClickUpTest(ResetButton)
-		ItemCountVar = 1
-		data2.CountPanelText.text = ItemCountVar
-		data.ItemMakerVar = ItemCountVar
-		self:CountUpData(data2.NowItemCoeuntText, data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].gold[j], data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].itemcount[tostring(j)], ItemCountVar, data.Gold, data2.ItemCoeuntText, data.ItemCount[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].data[tostring(j)])
-	end)
-
-	data2.PlusButton = Button('+', Rect(data2.CountPanel.x+75, 325, 25, 25))
-	data2.PlusButton.setOpacity(20)
-	asd.AddChild(data2.PlusButton)
-
-	data2.PlusButton.onClick.Add(function()
-		if ItemCountVar >= 1000 then
-			return false
-		end
-		ItemCountVar = ItemCountVar + 1
-		data2.CountPanelText.text = ItemCountVar
-		data.ItemMakerVar = ItemCountVar
-		self:CountUpData(data2.NowItemCoeuntText, data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].gold[j], data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].itemcount[tostring(j)], ItemCountVar, data.Gold, data2.ItemCoeuntText, data.ItemCount[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].data[tostring(j)])
-	end)
-
-	data2.DownButton = Button('-', Rect(data2.CountPanel.x, 325, 25, 25))
-	data2.DownButton.setOpacity(20)
-	asd.AddChild(data2.DownButton)
-
-	data2.DownButton.onClick.Add(function()
-		if ItemCountVar <= 1 then
-			return false
-		end
-		ItemCountVar = ItemCountVar - 1
-		data2.CountPanelText.text = ItemCountVar
-		data.ItemMakerVar = ItemCountVar
-		self:CountUpData(data2.NowItemCoeuntText, data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].gold[j], data.MenuList[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].itemcount[tostring(j)], ItemCountVar, data.Gold, data2.ItemCoeuntText, data.ItemCount[data.MenuName.main[i]][data.MenuName.index[tostring(i)][bb]].data[tostring(j)])
-	end)
+		self.ItemMakerVar = self.ItemMakerVar + 10
+		self.CountPanelText.text = self.ItemMakerVar
+		
+		self:CountUpData(self.NowItemCoeuntText, self.MenuList[self.MenuName.main[i]][self.MenuName.index[tostring(i)][bb]].gold[j], self.MenuList[self.MenuName.main[i]][self.MenuName.index[tostring(i)][bb]].itemcount[tostring(j)], CallBack.GameGold, self.ItemCoeuntText, self.MenuList[self.MenuName.main[i]][self.MenuName.index[tostring(i)][bb]].itemdataID[tostring(j)])
+	end
 	
+
+	self.PlusButtonX100Onf = function()
+		if self.ItemMakerVar >= 900 then
+			return false
+		end
+		self.ItemMakerVar = self.ItemMakerVar + 100
+		self.CountPanelText.text = self.ItemMakerVar
+		self:CountUpData(self.NowItemCoeuntText, self.MenuList[self.MenuName.main[i]][self.MenuName.index[tostring(i)][bb]].gold[j], self.MenuList[self.MenuName.main[i]][self.MenuName.index[tostring(i)][bb]].itemcount[tostring(j)], CallBack.GameGold, self.ItemCoeuntText, self.MenuList[self.MenuName.main[i]][self.MenuName.index[tostring(i)][bb]].itemdataID[tostring(j)])
+	end
+
+	self.ResetButtonOnf = function()
+		self.ItemMakerVar = 1
+		self.CountPanelText.text = self.ItemMakerVar
+		
+		self:CountUpData(self.NowItemCoeuntText, self.MenuList[self.MenuName.main[i]][self.MenuName.index[tostring(i)][bb]].gold[j], self.MenuList[self.MenuName.main[i]][self.MenuName.index[tostring(i)][bb]].itemcount[tostring(j)], CallBack.GameGold, self.ItemCoeuntText, self.MenuList[self.MenuName.main[i]][self.MenuName.index[tostring(i)][bb]].itemdataID[tostring(j)])
+	end
+
+	self.PlusButtonOnf = function()
+		if self.ItemMakerVar >= 1000 then
+			return false
+		end
+		self.ItemMakerVar = self.ItemMakerVar + 1
+		self.CountPanelText.text = self.ItemMakerVar
+		self:CountUpData(self.NowItemCoeuntText, self.MenuList[self.MenuName.main[i]][self.MenuName.index[tostring(i)][bb]].gold[j], self.MenuList[self.MenuName.main[i]][self.MenuName.index[tostring(i)][bb]].itemcount[tostring(j)], CallBack.GameGold, self.ItemCoeuntText, self.MenuList[self.MenuName.main[i]][self.MenuName.index[tostring(i)][bb]].itemdataID[tostring(j)])
+	end
+
+
+	self.DownButtonOnf = function()
+
+		if self.ItemMakerVar <= 1 then
+			return false
+		end
+		self.ItemMakerVar = self.ItemMakerVar - 1
+		self.CountPanelText.text = self.ItemMakerVar
+		self:CountUpData(self.NowItemCoeuntText, self.MenuList[self.MenuName.main[i]][self.MenuName.index[tostring(i)][bb]].gold[j], self.MenuList[self.MenuName.main[i]][self.MenuName.index[tostring(i)][bb]].itemcount[tostring(j)], CallBack.GameGold, self.ItemCoeuntText, self.MenuList[self.MenuName.main[i]][self.MenuName.index[tostring(i)][bb]].itemdataID[tostring(j)])
+	end
+
+
+
 end
 
-function Making:CountUpData(data, gold, itemcount, var, nowgold, data2, nowitem)
-	data2[1].text = '소지:'..(nowgold >= gold*var and CallBack:C_commaValue(nowgold) or "<color=#FF0000>"..CallBack:C_commaValue(nowgold).."</color>")
+function Making:CountUpData(data, gold, itemcount, nowgold, data2, nowitem)
+	data2[1].text = '소지:'..(nowgold >= gold*self.ItemMakerVar and CallBack:C_commaValue(nowgold) or "<color=#FF0000>"..CallBack:C_commaValue(nowgold).."</color>")
 
-	data[1].text = '필요:'..CallBack:C_commaValue(gold*var)
+	data[1].text = '필요:'..CallBack:C_commaValue(gold*self.ItemMakerVar)
 	
 	for i = 2, #data do
-		data2[i].text = '소지:'..(nowitem[i-1] >=itemcount[i-1]*var and CallBack:C_commaValue(nowitem[i-1]) or "<color=#FF0000>"..CallBack:C_commaValue(nowitem[i-1]).."</color>")
-		data[i].text = '필요:'..(CallBack:C_commaValue(itemcount[i-1]*var))
+		data2[i].text = '소지:'..(self.myitem(nowitem[i-1]) >=itemcount[i-1]*self.ItemMakerVar and CallBack:C_commaValue(self.myitem(nowitem[i-1])) or "<color=#FF0000>"..CallBack:C_commaValue(self.myitem(nowitem[i-1])).."</color>")
+		data[i].text = '필요:'..(CallBack:C_commaValue(itemcount[i-1]*self.ItemMakerVar))
 	end
 end
 
@@ -708,20 +591,32 @@ end
 
 
 
-Client.GetTopic("make:down").Add(function(MenuName, MenuList, ItemCount, UnitGold)
-    Making:MakingGetTopicUp(MenuName, MenuList, ItemCount, UnitGold)
+Client.GetTopic("make:down").Add(function(MenuName, MenuList)
+    Making:MakingGetTopicUp(MenuName, MenuList)
+end)
+
+
+Client.GetTopic("ItemMakeUpData").Add(function(var, up, down, dataID, data)
+	local datae = json.parse(data)
+	Client.ShowAlert(Client.GetItem(dataID).name..var..'개 제작 시도하여\n'..up..'개 제작 성공\n'..down..'개 실패 하였습니다')
+	Making:ItemMakingFinel(datae[1], datae[2], datae[3], datae[4])
+	Making:ShowAnimationTotal()
 end)
 
 
 
+
+
 function Making:ShowAnimationTotal()
+	self:ItemMakingFinel(self.nowdata[1], self.nowdata[2], self.nowdata[3], self.nowdata[4])
+	
     self:ShowAnimation()
-	-- LoadingPanelUp()
-    Client.FireEvent("make:Up")
 end
 
 
 
-Making:initialize()
+Client.RunLater(function()
+	Making:initialize()
+end, 0.5)
 
 
